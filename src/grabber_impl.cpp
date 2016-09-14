@@ -46,7 +46,6 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
 
     boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinectv2 3D Viewer"));
 
-    viewer->registerKeyboardCallback(f2g::eventlistener::pclKeyboardEvent, (void*)viewer.get());
 
 
     if(f2grab->getRGBViewer() || f2grab->getPCLViewer()){
@@ -64,7 +63,8 @@ template<typename Tcloud, typename Tgrabber>
 int f2g::grabber_impl::initializeViewers(Tcloud cloud, Tgrabber f2grab, boost::shared_ptr<pcl::visualization::PCLVisualizer> vwr, bool setSize, int xw, int yw, bool showFPS){
 
     int errNo = 0;
-
+    
+    vwr->registerKeyboardCallback(f2g::eventlistener::pclKeyboardEvent, (void*)vwr.get());
     vwr->setBackgroundColor(0.0f, 0.0f, 0.0f);
 
     pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(cloud);
@@ -90,10 +90,15 @@ int f2g::grabber_impl::initializeViewers(Tcloud cloud, Tgrabber f2grab, boost::s
     vwr->addPointCloud<pcl::PointXYZRGB>(cloud, rgb, "sample cloud");
     vwr->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
 
+    //f2g::helper saveHelper(cloud, false, false, f2g::grabber);
+
     while(!vwr->wasStopped()){
         vwr->spinOnce();
 
         std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now();
+
+        //saveHelper.getColorDepthAligned(color_, depth_, cloud);
+
         f2grab->getColorDepthAligned(color_, depth_, cloud);
 
         if(f2grab->getRGBViewer()){
