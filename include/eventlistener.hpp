@@ -23,8 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <pcl/visualization/keyboard_event.h>
 #include <pcl/visualization/mouse_event.h>
 
-#include <opencv2/highgui/highgui.hpp>
-
 
 namespace f2g {
 
@@ -45,7 +43,7 @@ namespace f2g {
        static void QTButtonClickedEvent();
 
     private:
-        
+
         int errNo;
         //empty for now
 

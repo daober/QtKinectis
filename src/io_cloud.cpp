@@ -17,8 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "io_cloud.hpp"
 
-#include <iostream>
 #include <chrono>
+#include <iostream>
 
 
 
@@ -80,7 +80,6 @@ template <typename Tcloud>
 void f2g::io_cloud::convertCloud(const std::string &filename, const std::string &convertedFile, const Tcloud &cloud, bool binformat){
 
     //TODO: empty body!
-
 }
 
 

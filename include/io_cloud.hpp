@@ -17,13 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <string>
-
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
 #include <pcl/io/ply_io.h>
 #include <pcl/io/pcd_io.h>
+
+#include <string>
 
 
 namespace f2g {

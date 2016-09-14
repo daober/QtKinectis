@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "eventlistener.hpp"
 
 #include <pcl/visualization/pcl_visualizer.h>
+#include <opencv2/highgui/highgui.hpp>
 
 #include <iostream>
 #include <string.h>

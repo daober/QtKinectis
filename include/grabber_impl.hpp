@@ -22,20 +22,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "grabber.hpp"
 #include "logger.hpp"
-#include "io_cloud.hpp"
 #include "eventlistener.hpp"
-
-#include <chrono>
-
-#include <pcl/visualization/cloud_viewer.h>
-#include <pcl/features/integral_image_normal.h>
-
-#include <pcl/PCLPointCloud2.h>
-#include <pcl/conversions.h>
 
 #include <pcl/console/print.h>
 #include <pcl/console/parse.h>
 #include <pcl/console/time.h>
+
+#include <pcl/PCLPointCloud2.h>
+#include <pcl/conversions.h>
+
+#include <pcl/visualization/cloud_viewer.h>
+#include <pcl/features/integral_image_normal.h>
+
+#include <chrono>
+
+
 
 namespace f2g {
 

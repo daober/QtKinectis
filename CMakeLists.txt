@@ -9,7 +9,7 @@ OPTION(ENABLE_CUDA   "Enable CUDA support" ON)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 
-SET(CMAKE_BUILD_TYPE Release)
+SET(CMAKE_BUILD_TYPE Debug)
 
 
 find_package(PCL 1.7.1	REQUIRED)

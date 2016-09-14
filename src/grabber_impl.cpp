@@ -16,8 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 @Author Daniel Obermaier
 */
-
 #include "grabber_impl.hpp"
+#include "io_cloud.hpp"
 
 #include <Eigen/Core>
 

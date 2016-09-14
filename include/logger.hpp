@@ -18,10 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 
-#include <libfreenect2/libfreenect2.hpp>
-#include <libfreenect2/frame_listener_impl.h>
-#include <libfreenect2/registration.h>
-#include <libfreenect2/packet_pipeline.h>
 #include <libfreenect2/logger.h>
 
 #include <fstream>
@@ -54,7 +50,7 @@ namespace f2g{
 		proc_err(int argc, char **argv);
 
 	private:
-		
+
 		int paramCntError(int argc, char **argv);
 		int pclArgError(int args);
 

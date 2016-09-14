@@ -19,22 +19,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <iostream>
-#include <signal.h>
-#include <string.h>
-#include <cstdlib>
-#include <fstream>
+#include <opencv2/opencv.hpp>
+#include <Eigen/Core>
+
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
 
 #include <libfreenect2/libfreenect2.hpp>
 #include <libfreenect2/frame_listener_impl.h>
 #include <libfreenect2/packet_pipeline.h>
 #include <libfreenect2/registration.h>
 
-#include <pcl/point_cloud.h>
-#include <pcl/point_types.h>
-
-#include <opencv2/opencv.hpp>
-#include <Eigen/Core>
+#include <iostream>
+#include <signal.h>
+#include <string.h>
+#include <cstdlib>
+#include <fstream>
 
 
 
