@@ -15,15 +15,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#include "io_cloud.hpp"
+#include "iocloud.hpp"
 
 #include <chrono>
 #include <iostream>
 
 
-
 template <typename Tcloud>
-int f2g::io_cloud::savePLYCloud(const std::string &filename, const Tcloud &cloud, bool binaryformat, bool useCam){
+int f2g::iocloud::savePLYCloud(const std::string &filename, const Tcloud &cloud, bool binaryformat, bool useCam){
     std::cout<<"saving cloud as *.ply file"<<std::endl;
 
     //TODO: should have a own button (implementing qt + custom pcl viewer)
@@ -41,7 +40,7 @@ int f2g::io_cloud::savePLYCloud(const std::string &filename, const Tcloud &cloud
 
 
 template <typename Tcloud>
-int f2g::io_cloud::savePCDCloud(const std::string &filename, const Tcloud &cloud, bool binaryformat, bool useCam){
+int f2g::iocloud::savePCDCloud(const std::string &filename, const Tcloud &cloud, bool binaryformat, bool useCam){
     std::cout<<"saving cloud as *.pcd file"<<std::endl;
 
     //TODO: should have own button as well
@@ -59,7 +58,7 @@ int f2g::io_cloud::savePCDCloud(const std::string &filename, const Tcloud &cloud
 
 
 template <typename Tcloud>
-int f2g::io_cloud::loadPLYCloud(const std::string &filename, const Tcloud &loadCloud){
+int f2g::iocloud::loadPLYCloud(const std::string &filename, const Tcloud &loadCloud){
     std::cout<<"loading cloud as *.ply file"<<std::endl;
 
     return (0);
@@ -68,7 +67,7 @@ int f2g::io_cloud::loadPLYCloud(const std::string &filename, const Tcloud &loadC
 
 
 template <typename Tcloud>
-int f2g::io_cloud::loadPCDCloud(const std::string &filename, const Tcloud &loadCloud){
+int f2g::iocloud::loadPCDCloud(const std::string &filename, const Tcloud &loadCloud){
     std::cout<<"loading cloud as *.ply file"<<std::endl;
 
     return (0);
@@ -77,14 +76,14 @@ int f2g::io_cloud::loadPCDCloud(const std::string &filename, const Tcloud &loadC
 
 
 template <typename Tcloud>
-void f2g::io_cloud::convertCloud(const std::string &filename, const std::string &convertedFile, const Tcloud &cloud, bool binformat){
+void f2g::iocloud::convertCloud(const std::string &filename, const std::string &convertedFile, const Tcloud &cloud, bool binformat){
 
     //TODO: empty body!
 }
 
 
 template <typename Tcloud>
-void f2g::io_cloud::savePLYCloud(bool safe, const std::string &filename, const Tcloud &cloud, bool binaryformat){
+void f2g::iocloud::savePLYCloud(bool safe, const std::string &filename, const Tcloud &cloud, bool binaryformat){
 
     if(safe){
         std::cout<<"saving cloud as *.ply file"<<std::endl;
@@ -102,7 +101,7 @@ void f2g::io_cloud::savePLYCloud(bool safe, const std::string &filename, const T
 
 
 template <typename Tcloud>
-void f2g::io_cloud::savePCDCloud(bool safe, const std::string &filename, const Tcloud &cloud, bool binaryformat){
+void f2g::iocloud::savePCDCloud(bool safe, const std::string &filename, const Tcloud &cloud, bool binaryformat){
 
     if(safe){
         std::cout<<"saving cloud as *.pcd file"<<std::endl;

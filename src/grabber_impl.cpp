@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 @Author Daniel Obermaier
 */
 #include "grabber_impl.hpp"
-#include "io_cloud.hpp"
+#include "iocloud.hpp"
 
 #include <Eigen/Core>
 
@@ -69,10 +69,6 @@ int f2g::grabber_impl::initializeViewers(Tcloud cloud, Tgrabber f2grab, boost::s
 
     pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(cloud);
 
-    //eigen error happens on declaration
-    //boost::shared_ptr<f2g::io_cloud> io(new f2g::io_cloud());
-
-    //io->savePLYCloud(true, "kinectv2.ply", cloud, true);
 
     //TODO: aligned color images need to be aligned
     if(setSize){

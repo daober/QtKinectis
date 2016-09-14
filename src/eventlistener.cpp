@@ -19,9 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //include own headers first
 #include "eventlistener.hpp"
+#include "iocloud.hpp"
 
+#include <pcl/io/ply_io.h>
+#include <pcl/io/pcd_io.h>
 #include <pcl/visualization/pcl_visualizer.h>
+
 #include <opencv2/highgui/highgui.hpp>
+
+#include <chrono>
 
 #include <iostream>
 #include <string.h>
@@ -56,24 +62,41 @@ void f2g::eventlistener::cvMouseCallback(int event, int x, int y, int flags, voi
 }
 
 
-void f2g::eventlistener::pclKeyboardEvent(const pcl::visualization::KeyboardEvent &event, void *vwr){
+void f2g::eventlistener::pclKeyboardEvent(const pcl::visualization::KeyboardEvent &event, void *data){
     std::cout<<"Keyboard event called"<<std::endl;
     std::cout<<event.getKeySym()<<" pressed"<<std::endl;
 
+    //pcl::PLYWriter plywriter_;
+
+    //f2g::helper *helper = (f2g::helper*) data;
+
     //hack to get a static viewer
-    pcl::visualization::PCLVisualizer *view = static_cast<pcl::visualization::PCLVisualizer *>(vwr);
+    //pcl::visualization::PCLVisualizer *view = static_cast<pcl::visualization::PCLVisualizer *>(data);
 
     if (event.getKeySym() == "Escape" && event.keyDown()){
         //try to close pclviewer window
         std::cout<<"ESC pressed"<<std::endl;
         std::cout<<"exiting pcl viewer"<<std::endl;
-        view->close();
+    //    view->close();
     }
-    if (event.getKeySym() == "c" && event.keyDown() && event.isCtrlPressed()){
+    else if (event.getKeySym() == "c" && event.keyDown() && event.isCtrlPressed()){
         //close on ctrl+c as well
          std::cout<<"ctrl+c pressed... "<<std::endl;
          std::cout<<"exiting pcl viewer"<<std::endl;
-         view->close();
+    //     view->close();
+    }
+    else if (event.getKeySym() == "y" && event.keyDown() && event.isCtrlPressed()){
+        //save on ctrl+y
+         std::cout<<"ctrl+s pressed... "<<std::endl;
+         std::cout<<"saving ply file"<<std::endl;
+
+         std::chrono::high_resolution_clock::time_point tp = std::chrono::high_resolution_clock::now();
+         std::string tnow = std::to_string((long)std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count());
+
+         //plywriter_.write("cloud_" + tnow, *(helper->cloud_), helper->binformat_, helper->useCam_);
+
+         std::cout<<"saved" <<"cloud_" + tnow + ".ply" << std::endl;
+
     }
 
 

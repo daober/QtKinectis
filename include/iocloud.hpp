@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "grabber.hpp"
+
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
@@ -28,7 +30,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace f2g {
 
-    class io_cloud {
+    class helper {
+
+    public:
+        helper(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> cloud, bool binformat, bool useCam, f2g::grabber &grab) :
+                                                                    cloud_(cloud), binformat_(binformat), useCam_(useCam), grab_(grab){}
+
+
+        boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> cloud_;
+        bool binformat_;
+        bool useCam_;
+        f2g::grabber &grab_;
+
+    };
+
+
+
+    class iocloud {
 
     public:
 

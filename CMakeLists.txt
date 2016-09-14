@@ -8,6 +8,7 @@ OPTION(ENABLE_CUDA   "Enable CUDA support" ON)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
+SET(CMAKE_VERBOSE_MAKEFILE OFF)
 
 SET(CMAKE_BUILD_TYPE Debug)
 
@@ -20,7 +21,8 @@ find_package(Qt5Widgets REQUIRED)
 find_package(VTK        REQUIRED)
 
 # run silent
-find_package(Eigen3 	QUIET)
+#find_package(Eigen3 	QUIET)
+find_package(Eigen3 REQUIRED)
 # lines underneath needed for OSX + brew package manager installation formulae for opencv3 and eigen3
 if(NOT EIGEN_FOUND)
     # Fallback to cmake_modules
@@ -57,6 +59,7 @@ link_directories(${PCL_LIBRARY_DIRS})
 
 # include own include directory
 include_directories(include)
+
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${PCL_INCLUDE_DIRS})
 include_directories(${freenect2_INCLUDE_DIRS})
@@ -66,8 +69,9 @@ include_directories(${Qt5Widgets_INCLUDE_DIRS})
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
 
-set(SOURCES src/init.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp src/io_cloud.cpp )
+set(SOURCES src/init.cpp src/iocloud.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp )
 
-add_executable(freenector2 ${SOURCES} )
+add_executable(freenector2 ${SOURCES} include/iocloud.hpp include/grabber.hpp include/grabber_impl.hpp include/logger.hpp include/eventlistener.hpp)
 
 target_link_libraries(freenector2 ${OpenCV_LIBS} ${freenect2_LIBRARIES} ${PCL_LIBRARIES} ${OPENGL_LIBRARIES} ${VTK_LIBRARIES})
+

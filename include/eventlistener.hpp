@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <pcl/visualization/mouse_event.h>
 
 
+
+
 namespace f2g {
 
     class eventlistener {
@@ -37,15 +39,19 @@ namespace f2g {
        static void cvWindowCallback(int event, int x, int y, int flags, void* username);
        static void cvMouseCallback(int event, int x, int y, int flags, void *username);
 
-       static void pclKeyboardEvent(const pcl::visualization::KeyboardEvent &event, void* vwr);
-       static void pclMouseEvent(const pcl::visualization::MouseEvent &event, void* vwr);
+       static void pclKeyboardEvent(const pcl::visualization::KeyboardEvent &event, void* data);
+       static void pclMouseEvent(const pcl::visualization::MouseEvent &event, void* data);
 
        static void QTButtonClickedEvent();
+
+
+
 
     private:
 
         int errNo;
-        //empty for now
+
+
 
     };
 
