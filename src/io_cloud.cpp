@@ -17,8 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "io_cloud.hpp"
 
-#include <QMainWindow>      //used for UI elements
-
 #include <iostream>
 #include <chrono>
 
@@ -83,4 +81,39 @@ void f2g::io_cloud::convertCloud(const std::string &filename, const std::string 
 
     //TODO: empty body!
 
+}
+
+
+template <typename Tcloud>
+void f2g::io_cloud::savePLYCloud(bool safe, const std::string &filename, const Tcloud &cloud, bool binaryformat){
+
+    if(safe){
+        std::cout<<"saving cloud as *.ply file"<<std::endl;
+
+        //TODO: should have a own button (implementing qt + custom pcl viewer)
+        std::chrono::high_resolution_clock::time_point tp = std::chrono::high_resolution_clock::now();
+
+        std::string tnow = std::to_string((double) std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count());
+
+        plywriter_.write(filename, cloud, Eigen::Vector4f::Zero(), Eigen::Quaternionf::Identity(), binaryformat);
+
+        std::cout << "saved: " << "cloud " + tnow + ".ply" << std::endl;
+    }
+}
+
+template <typename Tcloud>
+void f2g::io_cloud::savePCDCloud(bool safe, const std::string &filename, const Tcloud &cloud, bool binaryformat){
+
+    if(safe){
+        std::cout<<"saving cloud as *.pcd file"<<std::endl;
+
+        //TODO: should have own button as well
+        std::chrono::high_resolution_clock::time_point tp = std::chrono::high_resolution_clock::now();
+
+        std::string tnow = std::to_string((double) std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count());
+
+        pcdwriter_.write(filename, cloud, Eigen::Vector4f::Zero(), Eigen::Quaternionf::Identity(), binaryformat);
+
+        std::cout << "saved: " << "cloud " + tnow + ".pcd" << std::endl;
+    }
 }

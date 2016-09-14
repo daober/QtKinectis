@@ -56,21 +56,22 @@ void f2g::eventlistener::cvMouseCallback(int event, int x, int y, int flags, voi
 
 
 void f2g::eventlistener::pclKeyboardEvent(const pcl::visualization::KeyboardEvent &event, void *vwr){
-    std::cout<<"Keyboard event called"<<std::endl;    
+    std::cout<<"Keyboard event called"<<std::endl;
     std::cout<<event.getKeySym()<<" pressed"<<std::endl;
 
+    //hack to get a static viewer
     pcl::visualization::PCLVisualizer *view = static_cast<pcl::visualization::PCLVisualizer *>(vwr);
 
     if (event.getKeySym() == "Escape" && event.keyDown()){
         //try to close pclviewer window
         std::cout<<"ESC pressed"<<std::endl;
-        std::cout<<"exiting pcl viewer"<<std::endl;      
+        std::cout<<"exiting pcl viewer"<<std::endl;
         view->close();
     }
     if (event.getKeySym() == "c" && event.keyDown() && event.isCtrlPressed()){
         //close on ctrl+c as well
          std::cout<<"ctrl+c pressed... "<<std::endl;
-         std::cout<<"exiting pcl viewer"<<std::endl; 
+         std::cout<<"exiting pcl viewer"<<std::endl;
          view->close();
     }
 

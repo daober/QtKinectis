@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "grabber_impl.hpp"
 #include "eventlistener.hpp"
+#include "io_cloud.hpp"
 
 
 
@@ -44,8 +45,7 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
     f2grab->setPCLViewer(pclVwr);
 
     boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinectv2 3D Viewer"));
-    //initialize pcl EventListener (keyboard)
-    //boost::shared_ptr<f2g::extendedvwr> viewer (new f2g::extendedvwr("Kinectv2 3D Viewer"));
+
     viewer->registerKeyboardCallback(f2g::eventlistener::pclKeyboardEvent, (void*)viewer.get());
 
 
@@ -69,6 +69,8 @@ int f2g::grabber_impl::initializeViewers(Tcloud cloud, Tgrabber f2grab, boost::s
     vwr->setBackgroundColor(0.0f, 0.0f, 0.0f);
 
     pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(cloud);
+    boost::shared_ptr<f2g::io_cloud> io(new f2g::io_cloud);
+
 
     //TODO: aligned color images need to be aligned
     if(setSize){
@@ -106,6 +108,7 @@ int f2g::grabber_impl::initializeViewers(Tcloud cloud, Tgrabber f2grab, boost::s
         std::cout << "delta " << std::chrono::duration_cast<std::chrono::duration<double>>(timePost-timeNow).count() * 1000 << std::endl;
 
         pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(cloud);
+
         vwr->updatePointCloud<pcl::PointXYZRGB> (cloud, rgb, "sample cloud");
     }
 

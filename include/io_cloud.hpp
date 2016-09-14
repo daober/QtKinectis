@@ -47,6 +47,11 @@ namespace f2g {
         template <typename Tcloud>
         void convertCloud(const std::string &filename, const std::string &convertedFile, const Tcloud &cloud, bool binformat);
 
+        template <typename Tcloud>
+        void savePCDCloud(bool safe, const std::string &filename, const Tcloud &cloud, bool binaryformat);
+
+        template <typename Tcloud>
+        void savePLYCloud(bool safe, const std::string &filename, const Tcloud &cloud, bool binaryformat);
 
     private:
 

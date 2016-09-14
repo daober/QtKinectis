@@ -32,7 +32,8 @@ int main(int argc, char** argv){
     f2g::proc pl = f2g::proc::OPENGL;
 
     boost::shared_ptr<f2g::grabber_impl> f2grab(new f2g::grabber_impl());
-    
+
+    //is not used for now
     if(argc < 1){
         f2grab->showUsage();
     }
