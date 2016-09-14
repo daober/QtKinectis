@@ -69,8 +69,9 @@ int f2g::grabber_impl::initializeViewers(Tcloud cloud, Tgrabber f2grab, boost::s
     vwr->setBackgroundColor(0.0f, 0.0f, 0.0f);
 
     pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(cloud);
-    boost::shared_ptr<f2g::io_cloud> io(new f2g::io_cloud);
 
+    //eigen error happens on declaration
+    //boost::shared_ptr<f2g::io_cloud> io(new f2g::io_cloud);
 
     //TODO: aligned color images need to be aligned
     if(setSize){

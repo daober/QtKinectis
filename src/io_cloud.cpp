@@ -101,6 +101,7 @@ void f2g::io_cloud::savePLYCloud(bool safe, const std::string &filename, const T
     }
 }
 
+
 template <typename Tcloud>
 void f2g::io_cloud::savePCDCloud(bool safe, const std::string &filename, const Tcloud &cloud, bool binaryformat){
 
