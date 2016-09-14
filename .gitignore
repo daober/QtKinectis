@@ -1,0 +1,5 @@
+# ignore Makefile
+Makefile
+
+# ignore build folder
+/build/

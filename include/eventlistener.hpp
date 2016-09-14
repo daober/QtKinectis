@@ -1,0 +1,54 @@
+/**
+
+*** header for freenect2 eventlistener ***
+
+Copyright 2016, Daniel Obermaier
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+@Author Daniel Obermaier
+*/
+
+#pragma once
+
+#include <pcl/visualization/keyboard_event.h>
+#include <pcl/visualization/mouse_event.h>
+
+#include <opencv2/highgui/highgui.hpp>
+
+
+namespace f2g {
+
+    class eventlistener {
+
+    public:
+
+       static void KeyboardInputEvent(char arg);
+
+       static void closeKinectGrabber(void);
+
+       static void cvWindowCallback(int event, int x, int y, int flags, void* username);
+       static void cvMouseCallback(int event, int x, int y, int flags, void *username);
+
+       static void pclKeyboardEvent(const pcl::visualization::KeyboardEvent &event, void* vwr);
+       static void pclMouseEvent(const pcl::visualization::MouseEvent &event, void* vwr);
+
+       static void QTButtonClickedEvent();
+
+    private:
+        
+        int errNo;
+        //empty for now
+
+    };
+
+}
