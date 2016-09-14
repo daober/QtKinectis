@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "grabber.hpp"
 #include "logger.hpp"
+#include "io_cloud.hpp"
+#include "eventlistener.hpp"
 
 #include <chrono>
 
@@ -30,7 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <pcl/PCLPointCloud2.h>
 #include <pcl/conversions.h>
-#include <pcl/io/ply_io.h>
 
 #include <pcl/console/print.h>
 #include <pcl/console/parse.h>

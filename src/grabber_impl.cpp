@@ -18,9 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "grabber_impl.hpp"
-#include "eventlistener.hpp"
-#include "io_cloud.hpp"
 
+#include <Eigen/Core>
 
 
 int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVwr){
@@ -31,6 +30,7 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
 
     std::vector<int> iter_ply;
     boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> mCloud;
+    //pcl::PointCloud<pcl::PointXYZRGB> mCloud;
 
     boost::shared_ptr<f2g::grabber> f2grab(new f2g::grabber(pl));
 
@@ -60,7 +60,6 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
 
 
 
-//template method creation will follow...
 template<typename Tcloud, typename Tgrabber>
 int f2g::grabber_impl::initializeViewers(Tcloud cloud, Tgrabber f2grab, boost::shared_ptr<pcl::visualization::PCLVisualizer> vwr, bool setSize, int xw, int yw, bool showFPS){
 
@@ -71,7 +70,9 @@ int f2g::grabber_impl::initializeViewers(Tcloud cloud, Tgrabber f2grab, boost::s
     pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(cloud);
 
     //eigen error happens on declaration
-    //boost::shared_ptr<f2g::io_cloud> io(new f2g::io_cloud);
+    //boost::shared_ptr<f2g::io_cloud> io(new f2g::io_cloud());
+
+    //io->savePLYCloud(true, "kinectv2.ply", cloud, true);
 
     //TODO: aligned color images need to be aligned
     if(setSize){

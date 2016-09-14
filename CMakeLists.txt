@@ -9,7 +9,7 @@ OPTION(ENABLE_CUDA   "Enable CUDA support" ON)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 
-SET(CMAKE_BUILD_TYPE Debug)
+SET(CMAKE_BUILD_TYPE Release)
 
 
 find_package(PCL 1.7.1	REQUIRED)
@@ -68,6 +68,6 @@ add_definitions(${Qt5Widgets_DEFINITIONS})
 
 set(SOURCES src/init.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp src/io_cloud.cpp )
 
-add_executable(freenector2 ${SOURCES} ${project_FORMS_HEADERS} ${project_HEADERS_MOC} )
+add_executable(freenector2 ${SOURCES} )
 
-target_link_libraries(freenector2 ${OpenCV_LIBS} ${freenect2_LIBRARIES} ${PCL_LIBRARIES} ${OPENGL_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${QT_LIBRARIES} ${VTK_LIBRARIES})
+target_link_libraries(freenector2 ${OpenCV_LIBS} ${freenect2_LIBRARIES} ${PCL_LIBRARIES} ${OPENGL_LIBRARIES} ${VTK_LIBRARIES})
