@@ -46,8 +46,6 @@ namespace f2g {
        static void QTButtonClickedEvent();
 
 
-
-
     private:
 
         int errNo;

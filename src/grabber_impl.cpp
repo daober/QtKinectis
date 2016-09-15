@@ -33,19 +33,20 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
     std::cout<< "Processing Point Cloud..." <<std::endl;
 
     std::vector<int> iter_ply;
+
     boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> mCloud;
 
-    f2g::grabber f2grab;
+    f2g::grabber grab(pl, false);       //args:(pipeline, mirror)
 
-    mCloud = f2grab.getPointCloud();
+    mCloud = grab.getPointCloud();
 
     mCloud->sensor_orientation_.w() = 0.0f;
     mCloud->sensor_orientation_.x() = 1.0f;
     mCloud->sensor_orientation_.y() = 0.0f;
     mCloud->sensor_orientation_.z() = 0.0f;
 
-    f2grab.setRGBViewer(colorVwr);
-    f2grab.setPCLViewer(pclVwr);
+    grab.setRGBViewer(colorVwr);
+    grab.setPCLViewer(pclVwr);
 
     boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinectv2 3D Viewer"));
 
@@ -72,7 +73,7 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
     viewer->addPointCloud<pcl::PointXYZRGB>(mCloud, rgb, "sample cloud");
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
 
-    f2g::saveHelper save(mCloud, false, false, f2grab);
+    f2g::saveHelper save(mCloud, false, false, grab);
 
     viewer->registerKeyboardCallback(f2g::eventlistener::pclSaveEvent, (void*) &save);
     viewer->registerKeyboardCallback(f2g::eventlistener::pclMiscEvent, (void*) &viewer);
@@ -83,19 +84,19 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
         std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now();
 
         if(setColorDepth){
-            f2grab.getColorDepthAligned(color_, depth_, mCloud);
+            grab.getColorDepthAligned(color_, depth_, mCloud);
         }
 
         else if(setDepthOnly){
-            f2grab.getDepth(depth_);
+            grab.getDepth(depth_);
         }
 
         else if(setIrOnly){
-            f2grab.getIr(ir_);
+            grab.getIr(ir_);
         }
 
 
-        if(f2grab.getRGBViewer()){
+        if(grab.getRGBViewer()){
             cv::imshow("color", color_);
             char cv_event =(char) cv::waitKey(10);     //react after 10 msec and cast to char
             f2g::eventlistener::KeyboardInputEvent(cv_event);
@@ -108,21 +109,12 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
 
         viewer->updatePointCloud<pcl::PointXYZRGB> (mCloud, rgb, "sample cloud");
 
-
     }
 
-    f2grab.shutdown();
+    grab.shutdown();
 
     return(errNo);
 }
-
-
-
-//template<typename Tcloud, typename Tgrabber>
-//int f2g::grabber_impl::initializeViewers(Tcloud cloud, Tgrabber f2grab, boost::shared_ptr<pcl::visualization::PCLVisualizer> vwr, bool setSize, int xw, int yw, bool showFPS){
-
-
-//}
 
 
 void f2g::grabber_impl::showUsage(){

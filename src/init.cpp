@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 int main(int argc, char** argv){
+
     int isErr = 0;
 
     bool showPointCloud = true;
@@ -29,16 +30,37 @@ int main(int argc, char** argv){
 
     const char* logfile = "$HOME/src/logs/grabberlog/f2glog.txt";
 
-    f2g::proc pl = f2g::proc::OPENGL;
+    boost::shared_ptr<f2g::grabber_impl> grabimpl(new f2g::grabber_impl());
+    grabimpl->showUsage();
 
-    boost::shared_ptr<f2g::grabber_impl> f2grab(new f2g::grabber_impl());
+    f2g::proc pipeline;
 
-    //is not used for now
-    if(argc < 1){
-        f2grab->showUsage();
+    switch((*argv)[1]){
+        case 0:
+            pipeline = f2g::proc::CPU;
+            break;
+        case 1:
+            pipeline = f2g::proc::OPENCL;
+            break;
+        case 2:
+            pipeline = f2g::proc::OPENGL;
+            break;
+        default:
+            pipeline = f2g::proc::CPU;
+            break;
     }
 
-    f2grab->processPointCloud(pl, showRGBCameraOutput, showPointCloud);
+    if(argc < 2){
+        std::cout<<"wrong usage, please read: "<<std::endl;
+        grabimpl->showUsage();
+        isErr= -2;
+        std::cout<<"exiting program -> Error number: " <<isErr <<std::endl;
+
+        exit (-2);
+    }
+    else{
+        grabimpl->processPointCloud(pipeline, showRGBCameraOutput, showPointCloud);
+    }
 
     return (isErr);
 }

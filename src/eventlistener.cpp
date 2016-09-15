@@ -53,13 +53,16 @@ void f2g::eventlistener::closeKinectGrabber(void){
     //TODO: free usb slot
 }
 
+
 void f2g::eventlistener::cvWindowCallback(int event, int x, int y, int flags, void *username){
 
 }
 
+
 void f2g::eventlistener::cvMouseCallback(int event, int x, int y, int flags, void *username){
 
 }
+
 
 void f2g::eventlistener::pclMiscEvent(const pcl::visualization::KeyboardEvent &event, void *data){
     std::cout<<event.getKeySym()<<" pressed"<<std::endl;
@@ -103,7 +106,6 @@ void f2g::eventlistener::pclSaveEvent(const pcl::visualization::KeyboardEvent &e
     }
 
 }
-
 
 
 void f2g::eventlistener::pclMouseEvent(const pcl::visualization::MouseEvent &event, void *vwr){
