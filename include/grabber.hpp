@@ -46,7 +46,7 @@ namespace f2g {
 
 	public:
 
-		grabber(proc pl = CPU, std::string serial = std::string(), bool mirror = true);
+		grabber(proc pl = CPU, bool mirror = true, std::string serial = std::string());
 
 		virtual libfreenect2::Freenect2Device::IrCameraParams getIrParameters(void);
 		virtual libfreenect2::Freenect2Device::ColorCameraParams getRgbParameters(void);
@@ -59,8 +59,6 @@ namespace f2g {
 
 		void getColorDepthAligned(cv::Mat &colormat, cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, const bool hd = true, const bool rmpoints = true);
 		void getColorDepthAligned(cv::Mat & colormat, cv::Mat & depthmat, const bool hd = true, const bool rmpoints = false);
-
-		//implement methods for only depth data
 
 		std::pair<cv::Mat, cv::Mat> getDepthRgb(const bool enable_filter = true, libfreenect2::Frame* bigdepth = 0, int* color_depth_map = 0);
 
@@ -113,17 +111,16 @@ namespace f2g {
 		/*private member vars*/
 		libfreenect2::Freenect2 freenect2_;
 
-        libfreenect2::SyncMultiFrameListener multilistener_;
+		libfreenect2::Freenect2Device * dev_ = 0;
+		libfreenect2::PacketPipeline * pipeline_ = 0;
+		libfreenect2::Registration * registration_ = 0;
 
+		libfreenect2::SyncMultiFrameListener multilistener_;
 		libfreenect2::FrameMap frameMap_;
 
 		libfreenect2::Frame undistorted_;
 		libfreenect2::Frame registered_;
 		libfreenect2::Frame mat_;
-
-		libfreenect2::Freenect2Device * dev_;
-		libfreenect2::PacketPipeline * pipeline_;
-		libfreenect2::Registration * registration_;
 
 		Eigen::Matrix<float,512,1> cols;
 		Eigen::Matrix<float,424,1> rows;

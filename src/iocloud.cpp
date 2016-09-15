@@ -21,6 +21,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 
 
+
+f2g::saveHelper::saveHelper(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> cloud, bool binformat, bool useCam, f2g::grabber &grab) :
+                                                            cloud_(cloud), binformat_(binformat), useCam_(useCam), grabber_(grab) {
+
+
+
+}
+
+
 template <typename Tcloud>
 int f2g::iocloud::savePLYCloud(const std::string &filename, const Tcloud &cloud, bool binaryformat, bool useCam){
     std::cout<<"saving cloud as *.ply file"<<std::endl;

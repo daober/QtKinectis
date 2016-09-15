@@ -39,7 +39,8 @@ namespace f2g {
        static void cvWindowCallback(int event, int x, int y, int flags, void* username);
        static void cvMouseCallback(int event, int x, int y, int flags, void *username);
 
-       static void pclKeyboardEvent(const pcl::visualization::KeyboardEvent &event, void* data);
+       static void pclSaveEvent(const pcl::visualization::KeyboardEvent &event, void* data);
+       static void pclMiscEvent(const pcl::visualization::KeyboardEvent &event, void *data);
        static void pclMouseEvent(const pcl::visualization::MouseEvent &event, void* data);
 
        static void QTButtonClickedEvent();

@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "eventlistener.hpp"
 
 
-f2g::grabber::grabber(proc pl, std::string serial, bool mirror) :    mirror_(mirror),
+f2g::grabber::grabber(proc pl, bool mirror, std::string serial) :    mirror_(mirror),
                                                                      multilistener_(libfreenect2::Frame::Color | libfreenect2::Frame::Ir | libfreenect2::Frame::Depth),
                                                                      createRGBWindow_(true),
                                                                      undistorted_(512, 424, 4),
@@ -202,7 +202,7 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateCloud(const libfreene
         const float * itdepth = (float *) tmpdepth_iter.ptr();
         const char * itcolor = (char *) tmpcolor_iter.ptr();
 
-        if (mirror_ == true){
+        if (mirror_){
             cv::flip(tmpdepth_iter, tmpdepth_iter, 1);
             cv::flip(tmpcolor_iter, tmpcolor_iter, 1);
         }

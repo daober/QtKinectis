@@ -61,31 +61,34 @@ void f2g::eventlistener::cvMouseCallback(int event, int x, int y, int flags, voi
 
 }
 
-
-void f2g::eventlistener::pclKeyboardEvent(const pcl::visualization::KeyboardEvent &event, void *data){
-    std::cout<<"Keyboard event called"<<std::endl;
+void f2g::eventlistener::pclMiscEvent(const pcl::visualization::KeyboardEvent &event, void *data){
     std::cout<<event.getKeySym()<<" pressed"<<std::endl;
 
-    //pcl::PLYWriter plywriter_;
-
-    //f2g::helper *helper = (f2g::helper*) data;
-
-    //hack to get a static viewer
-    //pcl::visualization::PCLVisualizer *view = static_cast<pcl::visualization::PCLVisualizer *>(data);
+    //cast data back to viewer
+    pcl::visualization::PCLVisualizer *view = static_cast<pcl::visualization::PCLVisualizer *>(data);
 
     if (event.getKeySym() == "Escape" && event.keyDown()){
         //try to close pclviewer window
         std::cout<<"ESC pressed"<<std::endl;
         std::cout<<"exiting pcl viewer"<<std::endl;
-    //    view->close();
+        view->close();
     }
     else if (event.getKeySym() == "c" && event.keyDown() && event.isCtrlPressed()){
         //close on ctrl+c as well
-         std::cout<<"ctrl+c pressed... "<<std::endl;
-         std::cout<<"exiting pcl viewer"<<std::endl;
-    //     view->close();
+        std::cout<<"ctrl+c pressed... "<<std::endl;
+        std::cout<<"exiting pcl viewer"<<std::endl;
+        view->close();
     }
-    else if (event.getKeySym() == "y" && event.keyDown() && event.isCtrlPressed()){
+}
+
+
+void f2g::eventlistener::pclSaveEvent(const pcl::visualization::KeyboardEvent &event, void *data){
+    std::cout<<"Keyboard event called"<<std::endl;
+    std::cout<<event.getKeySym()<<" pressed"<<std::endl;
+
+    f2g::saveHelper *save = (f2g::saveHelper*) data;
+
+    if (event.getKeySym() == "y" && event.keyDown() && event.isCtrlPressed()){
         //save on ctrl+y
          std::cout<<"ctrl+s pressed... "<<std::endl;
          std::cout<<"saving ply file"<<std::endl;
@@ -93,15 +96,15 @@ void f2g::eventlistener::pclKeyboardEvent(const pcl::visualization::KeyboardEven
          std::chrono::high_resolution_clock::time_point tp = std::chrono::high_resolution_clock::now();
          std::string tnow = std::to_string((long)std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count());
 
-         //plywriter_.write("cloud_" + tnow, *(helper->cloud_), helper->binformat_, helper->useCam_);
+         pcl::PLYWriter plywriter_;
+         plywriter_.write("cloud_" + tnow, *(save->cloud_), save->binformat_, save->useCam_);
 
          std::cout<<"saved" <<"cloud_" + tnow + ".ply" << std::endl;
-
     }
 
-
-
 }
+
+
 
 void f2g::eventlistener::pclMouseEvent(const pcl::visualization::MouseEvent &event, void *vwr){
     std::cout<<"Mouse event called"<<std::endl;

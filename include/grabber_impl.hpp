@@ -44,10 +44,7 @@ namespace f2g {
 
     public:
 
-        template <typename Tcloud, typename Tgrabber>
-        int initializeViewers(Tcloud cloud, Tgrabber f2grab, boost::shared_ptr<pcl::visualization::PCLVisualizer> vwr, bool setSize, int xw = 1280, int yw = 768 , bool showFPS = true);
-
-        int processPointCloud(f2g::proc pl, bool colorVwr = true, bool pclVwr = true);
+        int processPointCloud(f2g::proc pl, bool colorVwr = true, bool pclVwr = true, bool setSize = true, int xw = 1280, int yw = 768 , bool showFPS = true);
 
         void showUsage();
 
