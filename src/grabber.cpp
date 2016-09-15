@@ -448,20 +448,6 @@ switch(pl){
         std::cout << "created" << std::endl;
         break;
 
-    case CUDA:
-        std::cout << "creating CUDA processor" << std::endl;
-
-        if(serial_.empty()){
-            //dev_ = freenect2_.openDefaultDevice(new libfreenect2::CudaPacketPipeline());
-            std::cerr<< "CUDA not yet implemented" << std::endl;
-        }
-        else{
-            //dev_ = freenect2_.openDevice(serial_, new libfreenect2::CudaPacketPipeline());
-            std::cerr<< "CUDA not yet implemented" << std::endl;
-        }
-        std::cout << "created" << std::endl;
-        break;
-
     default:
         std::cout << "creating Cpu processor" << std::endl;
 

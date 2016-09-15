@@ -119,10 +119,9 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
 
 void f2g::grabber_impl::showUsage(){
 
-        std::cout << "Syntax is: progname [0|1|2|3] correspond to CPU, OPENCL, OPENGL, (CUDA will follow)" << std::endl;
-        std::cout << "Press 'ESC' to close OpenCV window" << std::endl;
-        exit(-1);
-//    std::cout << "Press \'s\' to store a cloud" << std::endl;
+        std::cout << "Syntax is: progname [0|1|2] correspond to CPU, OPENCL, OPENGL" << std::endl;
+        std::cout << "Press 'ESC' or ctrl+c to close OpenCV window" << std::endl;
+        std::cout << "Press 'ctrl+y' to store a cloud" << std::endl;
 //    std::cout << "Press \'x\' to store the calibrations." << std::endl;
 }
 
