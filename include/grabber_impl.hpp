@@ -59,6 +59,7 @@ namespace f2g {
 
         cv::Mat color_;
         cv::Mat depth_;
+        cv::Mat ir_;
     };
 
 }

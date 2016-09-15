@@ -26,6 +26,10 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
 
     int errNo = 0;
 
+    bool setColorDepth = true;
+    bool setDepthOnly = false;
+    bool setIrOnly = false;
+
     std::cout<< "Processing Point Cloud..." <<std::endl;
 
     std::vector<int> iter_ply;
@@ -78,7 +82,18 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
 
         std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now();
 
-        f2grab.getColorDepthAligned(color_, depth_, mCloud);
+        if(setColorDepth){
+            f2grab.getColorDepthAligned(color_, depth_, mCloud);
+        }
+
+        else if(setDepthOnly){
+            f2grab.getDepth(depth_);
+        }
+
+        else if(setIrOnly){
+            f2grab.getIr(ir_);
+        }
+
 
         if(f2grab.getRGBViewer()){
             cv::imshow("color", color_);
