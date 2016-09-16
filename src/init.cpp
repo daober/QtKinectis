@@ -40,15 +40,19 @@ int main(int argc, char** argv){
 
     switch((*argv)[1]){
         case 0:
+            std::cout<<"packet pipeline CPU selected" <<std::endl;
             pipeline = f2g::proc::CPU;
             break;
         case 1:
+            std::cout<<"packet pipeline OPENCL selected" <<std::endl;
             pipeline = f2g::proc::OPENCL;
             break;
         case 2:
+            std::cout<<"packet pipeline OPENGL selected" <<std::endl;
             pipeline = f2g::proc::OPENGL;
             break;
         default:
+            std::cout<<"packet pipeline (default = CPU) selected" <<std::endl;
             pipeline = f2g::proc::CPU;
             break;
     }
@@ -56,17 +60,19 @@ int main(int argc, char** argv){
     switch((*argv)[2]){
         case 0:
             //depth image with rgb colors aligned
+            std::cout<<"uncolorized chosen" <<std::endl;
             colorized = true;
-        break;
-            case 1:
+            break;
+        case 1:
             //uncolorized depth images
+            std::cout<<"uncolorized chosen" <<std::endl;
             uncolorized = true;
             break;
         default:
+            std::cout<<"default (= uncolorized) chosen" <<std::endl;
             colorized = true;
             break;
     }
-
 
     if(argc < 3){
         std::cout<<"wrong usage, please read: "<<std::endl;
@@ -74,9 +80,12 @@ int main(int argc, char** argv){
 
         isErr= -2;
         std::cout<<"exiting program -> Error number: " <<isErr <<std::endl;
-
         exit (-2);
     }
+
+    /*just a test!!!!!*/
+    /*colorized = false;
+    uncolorized = true;*/
 
     if(colorized){
         grabimpl->processColorizedPointCloud(pipeline);
