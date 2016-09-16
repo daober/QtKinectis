@@ -38,7 +38,7 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
 
     f2g::grabber grab(pl, false);       //args:(pipeline, mirror)
 
-    mCloud = grab.getColorizedPointCloud();
+    mCloud = grab.createColorizedPointCloud();
 
     mCloud->sensor_orientation_.w() = 0.0f;
     mCloud->sensor_orientation_.x() = 1.0f;
@@ -115,7 +115,8 @@ int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, 
 
 
 void f2g::grabber_impl::showUsage(){
-        std::cout << "Syntax is: progname [ 0 | 1 | 2 ] correspond to CPU, OPENCL, OPENGL" << std::endl;
+        std::cout << "Syntax is: progname [ 0 | 1 | 2 ] [ 0 | 1 ] correspond to [CPU | OPENCL | OPENGL] and [ COLORIZED | UNCOLORIZED ] " << std::endl;
+        std::cout << "example usage: sudo ./freenect2 1 0 for OPENCL pipeline and colorized point cloud" << std::endl;
         std::cout << "Press 'ESC' or ctrl + c to close program" << std::endl;
         std::cout << "Press 'ctrl + y' to store a cloud" << std::endl;
 }

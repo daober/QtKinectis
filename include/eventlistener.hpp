@@ -45,8 +45,6 @@ namespace f2g {
 
         int errNo;
 
-
-
     };
 
 }

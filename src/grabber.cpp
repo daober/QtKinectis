@@ -436,36 +436,6 @@ void f2g::grabber::getColorDepthAligned(cv::Mat &colormat, cv::Mat &depthmat, pc
 }
 
 
-// Depth and color are aligned and registered
-void f2g::grabber::getColorDepthAligned(cv::Mat &colormat, cv::Mat & depthmat, const bool hd, const bool rmpoints){
-
-        multilistener_.waitForNewFrame(frameMap_);
-		libfreenect2::Frame * rgb = frameMap_[libfreenect2::Frame::Color];
-		libfreenect2::Frame * depth = frameMap_[libfreenect2::Frame::Depth];
-
-		registration_->apply(rgb, depth, &undistorted_, &registered_, rmpoints, &mat_, map_);
-
-		cv::Mat tmpDepth(undistorted_.height, undistorted_.width, CV_32FC1, undistorted_.data);
-		cv::Mat tmpColor;
-
-		if(hd){
-			tmpColor = cv::Mat(rgb->height, rgb->width, CV_8UC4, rgb->data);
-        }
-        else{
-			tmpColor = cv::Mat(registered_.height, registered_.width, CV_8UC4, registered_.data);
-        }
-
-        if (mirror_ == true){
-            cv::flip(tmpDepth, tmpDepth, 1);
-            cv::flip(tmpColor, tmpColor, 1);
-        }
-
-        colormat = tmpColor.clone();
-        depthmat = tmpDepth.clone();
-
-		multilistener_.release(frameMap_);
-}
-
 
 void f2g::grabber::getDepthAligned(cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, const bool hd, const bool rmpoints){
 
@@ -493,38 +463,6 @@ void f2g::grabber::getDepthAligned(cv::Mat &depthmat, pcl::PointCloud<pcl::Point
     multilistener_.release(frameMap_);*/
 
 }
-
-
-void f2g::grabber::getDepthAligned(cv::Mat &depthmat, const bool hd, const bool rmpoints){
-
-    /*multilistener_.waitForNewFrame(frameMap_);
-    libfreenect2::Frame * rgb = frameMap_[libfreenect2::Frame::Color];
-    libfreenect2::Frame * depth = frameMap_[libfreenect2::Frame::Depth];
-
-    registration_->apply(rgb, depth, &undistorted_, &registered_, rmpoints, &mat_, map_);
-
-    cv::Mat tmpDepth(undistorted_.height, undistorted_.width, CV_32FC1, undistorted_.data);
-    cv::Mat tmpColor;
-
-    if(hd){
-        tmpColor = cv::Mat(rgb->height, rgb->width, CV_8UC4, rgb->data);
-    }
-    else{
-        tmpColor = cv::Mat(registered_.height, registered_.width, CV_8UC4, registered_.data);
-    }
-
-    if (mirror_ == true){
-        cv::flip(tmpDepth, tmpDepth, 1);
-        cv::flip(tmpColor, tmpColor, 1);
-    }
-
-    colormat = tmpColor.clone();
-    depthmat = tmpDepth.clone();
-
-    multilistener_.release(frameMap_);*/
-
-}
-
 
 
 libfreenect2::Freenect2Device *(f2g::grabber::getFreenectDevice(void)){
@@ -601,7 +539,7 @@ create3Dcloud(dev_->getIrCameraParams());
 }
 
 
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::getColorizedPointCloud(void){
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::createColorizedPointCloud(void){
 
     const short width = undistorted_.width;
     const short height = undistorted_.height;
