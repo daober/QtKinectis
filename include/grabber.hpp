@@ -51,16 +51,14 @@ namespace f2g {
 		virtual libfreenect2::Freenect2Device::IrCameraParams getIrParameters(void);
 		virtual libfreenect2::Freenect2Device::ColorCameraParams getRgbParameters(void);
 
-		pcl::PointCloud<pcl::PointXYZRGB>::Ptr getPointCloud(void);
-		pcl::PointCloud<pcl::PointXYZRGB>::Ptr getPointCloud(const libfreenect2::Frame *rgb, const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
+		pcl::PointCloud<pcl::PointXYZRGB>::Ptr getColorizedPointCloud(void);
+		pcl::PointCloud<pcl::PointXYZRGB>::Ptr getColorizedPointCloud(const libfreenect2::Frame *rgb, const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 
 		pcl::PointCloud<pcl::PointXYZRGB>::Ptr updateCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 		pcl::PointCloud<pcl::PointXYZRGB>::Ptr updateCloud(const libfreenect2::Frame * rgb, const libfreenect2::Frame * depth, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 
 		void getColorDepthAligned(cv::Mat &colormat, cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, const bool hd = true, const bool rmpoints = true);
 		void getColorDepthAligned(cv::Mat & colormat, cv::Mat & depthmat, const bool hd = true, const bool rmpoints = false);
-
-		std::pair<cv::Mat, cv::Mat> getDepthRgb(const bool enable_filter = true, libfreenect2::Frame* bigdepth = 0, int* color_depth_map = 0);
 
 		/**
 		 * @brief shutdown kinectv2 device and close program
@@ -74,10 +72,6 @@ namespace f2g {
 		 * @return true if ok
 		 */
 		bool initialize(void);
-
-		void getRgb(cv::Mat &colormat);
-		void getDepth(cv::Mat depthmat);
-		void getIr(cv::Mat irmat);
 
 		void setRGBViewer(const bool rgbwin = true);
 		bool getRGBViewer();

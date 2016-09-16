@@ -267,55 +267,6 @@ void f2g::grabber::create3Dcloud(const libfreenect2::Freenect2Device::IrCameraPa
 }
 
 
-//using only color images
-void f2g::grabber::getRgb(cv::Mat &colormat){
-    multilistener_.waitForNewFrame(frameMap_);
-
-    libfreenect2::Frame *rgb = frameMap_[libfreenect2::Frame::Color];
-    cv::Mat rgbMat(rgb->height, rgb->width, CV_8UC4, rgb->data);
-
-    if (mirror_ == true){
-        cv::flip(rgbMat, rgbMat, 1);
-    }
-
-    colormat = rgbMat.clone();
-
-    multilistener_.release(frameMap_);
-}
-
-
-//using only depth images
-void f2g::grabber::getDepth(cv::Mat depthmat){
-    multilistener_.waitForNewFrame(frameMap_);
-
-    libfreenect2::Frame *depth = frameMap_[libfreenect2::Frame::Depth];
-    cv::Mat depthMat(depth->height, depth->width, CV_8UC4, depth->data);
-
-    if (mirror_ == true){
-        cv::flip(depthMat, depthMat, 1);
-    }
-
-    depthmat = depthMat.clone();
-
-    multilistener_.release(frameMap_);
-}
-
-
-void f2g::grabber::getIr(cv::Mat irmat){
-    multilistener_.waitForNewFrame(frameMap_);
-
-    libfreenect2::Frame *ir = frameMap_[libfreenect2::Frame::Ir];
-    cv::Mat irtemp(ir->height, ir->width, CV_32FC1, ir->data);
-
-    if (mirror_ == true){
-        cv::flip(irtemp, irtemp, 1);
-    }
-
-    irmat = irtemp.clone();
-
-    multilistener_.release(frameMap_);
-}
-
 
 void f2g::grabber::getColorDepthAligned(cv::Mat &colormat, cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, const bool hd, const bool rmpoints){
 
@@ -339,7 +290,7 @@ void f2g::grabber::getColorDepthAligned(cv::Mat &colormat, cv::Mat &depthmat, pc
     depthmat = tmpDepth.clone();
     colormat = tmpColor.clone();
 
-    cloud = getPointCloud(rgb, depth, cloud);
+    cloud = getColorizedPointCloud(rgb, depth, cloud);
     multilistener_.release(frameMap_);
 }
 
@@ -382,30 +333,6 @@ libfreenect2::Freenect2Device *(f2g::grabber::getFreenectDevice(void)){
 
 libfreenect2::SyncMultiFrameListener *(f2g::grabber::getListener(void)){
     return &(multilistener_);
-}
-
-
-std::pair<cv::Mat, cv::Mat> f2g::grabber::getDepthRgb(const bool enable_filter, libfreenect2::Frame* bigdepth, int* color_depth_map){
-    //hint: std::pair<T1 obj, T2 obj> couples together a pair of values
-    multilistener_.waitForNewFrame(frameMap_);
-
-    libfreenect2::Frame *depth = frameMap_[libfreenect2::Frame::Depth];
-    libfreenect2::Frame *rgb = frameMap_[libfreenect2::Frame::Color];
-
-    registration_->apply(rgb, depth, &undistorted_, &registered_, enable_filter, bigdepth, color_depth_map);
-    //registration_->apply(rgb, depth, &undistorted_, &registered_, remove_points, &mat_, map_)
-
-    cv::Mat rgbMat(rgb->height, rgb->width, CV_8UC4, rgb->data);
-    cv::Mat depthMat(depth->height, depth->width, CV_8UC4, depth->data);
-
-    if (mirror_ == true){
-        cv::flip(depthMat, depthMat, 1);
-        cv::flip(rgbMat, rgbMat, 1);
-    }
-
-    multilistener_.release(frameMap_);
-    //now make a pair and return it afterwards
-    return std::pair<cv::Mat, cv::Mat>(rgbMat, depthMat);
 }
 
 
@@ -473,7 +400,7 @@ create3Dcloud(dev_->getIrCameraParams());
 }
 
 
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::getPointCloud(void){
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::getColorizedPointCloud(void){
 
     const short width = undistorted_.width;
     const short height = undistorted_.height;
@@ -484,7 +411,7 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::getPointCloud(void){
 }
 
 
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::getPointCloud(const libfreenect2::Frame *rgb, const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::getColorizedPointCloud(const libfreenect2::Frame *rgb, const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
 
     const short width = undistorted_.width;
     const short height = undistorted_.height;

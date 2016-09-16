@@ -22,20 +22,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <Eigen/Core>
 
 
-int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVwr, bool setSize, int xw, int yw, bool showFPS){
+int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVwr, bool setSize, int xw, int yw){
 
     int errNo = 0;
 
     bool setColorDepth = true;
     bool setDepthOnly = false;
     bool setIrOnly = false;
+    bool showFPS = true;
 
     std::cout<< "Processing Point Cloud..." <<std::endl;
+
     std::vector<int> iter_ply;
+
     boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> mCloud;
+
+
     f2g::grabber grab(pl, false);       //args:(pipeline, mirror)
 
-    mCloud = grab.getPointCloud();
+    mCloud = grab.getColorizedPointCloud();
 
     mCloud->sensor_orientation_.w() = 0.0f;
     mCloud->sensor_orientation_.x() = 1.0f;
@@ -45,11 +50,11 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
     grab.setRGBViewer(colorVwr);
     grab.setPCLViewer(pclVwr);
 
-    pcl::visualization::PCLVisualizer *viewer = new pcl::visualization::PCLVisualizer("Kinectv2 3D Viewer");
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinectv2 3D Viewer"));
 
     viewer->setBackgroundColor(0.0f, 0.0f, 0.0f);
 
-    pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgbhandler(mCloud);
+    pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(mCloud);
 
     if(setSize){
         double posx = 0.0;
@@ -65,26 +70,24 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
         viewer->setCameraPosition(posx, posy, posz, up_x, up_y, up_z);
     }
 
+    viewer->setShowFPS(showFPS);
+
+    viewer->addPointCloud<pcl::PointXYZRGB>(mCloud, rgb, "sample cloud");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
+
+    f2g::saveHelper save(mCloud, false, false, grab);
+
+    viewer->registerKeyboardCallback(f2g::eventlistener::pclSaveEvent, (void*) &save);
+    viewer->registerKeyboardCallback(f2g::eventlistener::pclMiscEvent, (void*) &viewer);
 
     while(!viewer->wasStopped()){
+        viewer->spinOnce();
+
+        std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now();
 
         if(setColorDepth){
-                /*f2g::grabber_impl::getColorizedPointCloud(f2g::grabber &grab,
-                pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud,
-                pcl::visualization::PCLVisualizer *viewer,
-                pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb*/
-
-            getColorizedPointCloud(grab, mCloud, viewer, rgbhandler);
+            grab.getColorDepthAligned(color_, depth_, mCloud);
         }
-
-        else if(setDepthOnly){
-            grab.getDepth(depth_);
-        }
-
-        else if(setIrOnly){
-            grab.getIr(ir_);
-        }
-
 
         if(grab.getRGBViewer()){
             cv::imshow("color", color_);
@@ -92,52 +95,18 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
             f2g::eventlistener::KeyboardInputEvent(cv_event);
         }
 
+        std::chrono::high_resolution_clock::time_point timePost = std::chrono::high_resolution_clock::now();
+        std::cout << "delta " << std::chrono::duration_cast<std::chrono::duration<double>>(timePost-timeNow).count() * 1000 << std::endl;
+
+        pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(mCloud);
+
+        viewer->updatePointCloud<pcl::PointXYZRGB> (mCloud, rgb, "sample cloud");
+
     }
 
     grab.shutdown();
 
     return(errNo);
-}
-
-
-
-void f2g::grabber_impl::getColorizedPointCloud(f2g::grabber &grab, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::visualization::PCLVisualizer *viewer, pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb){
-
-    bool showFPS = true;
-
-    viewer->setShowFPS(showFPS);
-
-    viewer->addPointCloud<pcl::PointXYZRGB>(cloud, rgb, "sample cloud");
-    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
-
-    //TODO: grab needs other type
-    f2g::saveHelper save(cloud, false, false, grab);
-
-    //TODO: grab needs other type
-    viewer->registerKeyboardCallback(f2g::eventlistener::pclSaveEvent, (void*) &save);
-    viewer->registerKeyboardCallback(f2g::eventlistener::pclMiscEvent, (void*) &viewer);
-
-    viewer->spinOnce();
-
-    //TODO: grab needs other type
-    grab.getColorDepthAligned(color_, depth_, cloud);
-
-    std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now();
-
-    std::chrono::high_resolution_clock::time_point timePost = std::chrono::high_resolution_clock::now();
-    std::cout << "delta " << std::chrono::duration_cast<std::chrono::duration<double>>(timePost-timeNow).count() * 1000 << std::endl;
-
-    //TODO: grab needs other type
-    //TYPE: const typename pcl::PointCloud< PointT >::ConstPtr &cloud, const PointCloudColorHandler< PointT > &color_handler, const std::string &id="cloud"
-    viewer->updatePointCloud<pcl::PointXYZRGB> (cloud, rgb, "sample cloud");
-
-}
-
-
-
-void f2g::grabber_impl::getGreyPointCloud(f2g::grabber &grab, pcl::PointCloud<pcl::PointXYZRGB> &cloud, pcl::visualization::PCLVisualizer *viewer){
-
-
 }
 
 

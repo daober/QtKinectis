@@ -54,16 +54,6 @@ void f2g::eventlistener::closeKinectGrabber(void){
 }
 
 
-void f2g::eventlistener::cvWindowCallback(int event, int x, int y, int flags, void *username){
-
-}
-
-
-void f2g::eventlistener::cvMouseCallback(int event, int x, int y, int flags, void *username){
-
-}
-
-
 void f2g::eventlistener::pclMiscEvent(const pcl::visualization::KeyboardEvent &event, void *data){
     std::cout<<event.getKeySym()<<" pressed"<<std::endl;
 

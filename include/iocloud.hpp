@@ -44,7 +44,6 @@ namespace f2g {
     };
 
 
-
     class iocloud {
 
     public:

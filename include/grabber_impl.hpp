@@ -44,16 +44,12 @@ namespace f2g {
 
     public:
 
-        int processPointCloud(f2g::proc pl, bool colorVwr = true, bool pclVwr = true, bool setSize = true, int xw = 1280, int yw = 768 , bool showFPS = true);
+        int processPointCloud(f2g::proc pl, bool colorVwr = true, bool pclVwr = true, bool setSize = true, int xw = 1280, int yw = 768);
 
         void showUsage();
 
         cv::Mat getColorMat();
         cv::Mat getDepthMat();
-
-        void getColorizedPointCloud(f2g::grabber &grab, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::visualization::PCLVisualizer *viewer, pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb);
-        void getGreyPointCloud(f2g::grabber &grab, pcl::PointCloud<pcl::PointXYZRGB> &cloud, pcl::visualization::PCLVisualizer *viewer);
-
 
     private:
 
