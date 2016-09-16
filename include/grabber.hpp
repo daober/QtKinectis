@@ -67,8 +67,8 @@ namespace f2g {
 		pcl::PointCloud<pcl::PointXYZ>::Ptr getUncolorizedPointCloud(void);
 		pcl::PointCloud<pcl::PointXYZ>::Ptr getUncolorizedPointCloud(const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 
+		void getDepthAligned(cv::Mat &depthmat, const bool hd = true, const bool rmpoints = true);
 		void getDepthAligned(cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, const bool hd = true, const bool rmpoints = true);
-		void getDepthAligned(cv::Mat &colormat, cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, const bool hd = true, const bool rmpoints = true);
 		/**
 		 * @brief shutdown kinectv2 device and close program
 		 * @return true if ok
