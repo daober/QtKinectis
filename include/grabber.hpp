@@ -62,7 +62,7 @@ namespace f2g {
 		pcl::PointCloud<pcl::PointXYZ>::Ptr updateUncolorizedCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 		pcl::PointCloud<pcl::PointXYZ>::Ptr updateUncolorizedCloud(const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 
-		pcl::PointCloud<pcl::PointXYZ>::Ptr getUncolorizedPointCloud(void);
+		pcl::PointCloud<pcl::PointXYZ>::Ptr createUncolorizedPointCloud(void);
 		pcl::PointCloud<pcl::PointXYZ>::Ptr getUncolorizedPointCloud(const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 
 		void getDepthAligned(cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, const bool hd = true, const bool rmpoints = true);

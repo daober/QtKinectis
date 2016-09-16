@@ -29,6 +29,12 @@ f2g::saveHelper::saveHelper(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>>
 
 }
 
+f2g::saveHelper::saveHelper(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> cloud, bool binformat, bool useCam, f2g::grabber &grab) :
+                                                            cloudXYZ_(cloud), binformat_(binformat), useCam_(useCam), grabber_(grab) {
+
+
+
+}
 
 
 template <typename Tcloud>

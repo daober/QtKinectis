@@ -178,14 +178,13 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateColorizedCloud(pcl::P
 
                 isDense = false;
             }
-
         }
 
     }
     cloud->is_dense = isDense;
     multilistener_.release(frameMap_);
 
-    return cloud;
+return cloud;
 }
 
 
@@ -244,10 +243,9 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateColorizedCloud(const 
  				}
 			}
 		}
+	cloud->is_dense = is_dense;
 
-		cloud->is_dense = is_dense;
-
-		return cloud;
+return cloud;
 }
 
 
@@ -308,14 +306,13 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(pcl::Po
 
                 isDense = false;
             }
-
         }
 
     }
     cloud->is_dense = isDense;
     multilistener_.release(frameMap_);
 
-    return cloud;
+return cloud;
 }
 
 
@@ -528,7 +525,7 @@ return updateColorizedCloud(rgb, depth, cloud);
 }
 
 
-pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::getUncolorizedPointCloud(void){
+pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::createUncolorizedPointCloud(void){
 
     const short width = undistorted_.width;
     const short height = undistorted_.height;

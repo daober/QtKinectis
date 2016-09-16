@@ -98,10 +98,76 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
 
 
 int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, int xw, int yw){
-    int errNo;
 
+    int errNo = 0;
 
-    return (errNo);
+    bool showFPS = true;
+
+    std::cout<< "Processing uncolorized Point Cloud..." <<std::endl;
+
+    std::vector<int> iter_ply;
+    boost::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> mCloud;
+
+    f2g::grabber grab(pl, false);       //args:(pipeline, mirror)
+
+    mCloud = grab.createUncolorizedPointCloud();
+
+    mCloud->sensor_orientation_.w() = 0.0f;
+    mCloud->sensor_orientation_.x() = 1.0f;
+    mCloud->sensor_orientation_.y() = 0.0f;
+    mCloud->sensor_orientation_.z() = 0.0f;
+
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinectv2 3D Viewer"));
+
+    viewer->setBackgroundColor(0.0f, 0.0f, 0.0f);
+
+    pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZ> rgb(mCloud);
+
+    if(setSize){
+        double posx = 0.0;
+        double posy = 0.0;
+        double posz = -12.0;
+
+        double up_x = 0.0;
+        double up_y = 0.0;
+        double up_z = 0.0;
+
+        viewer->spinOnce();
+        viewer->setSize(xw, yw);
+        viewer->setCameraPosition(posx, posy, posz, up_x, up_y, up_z);
+    }
+
+    viewer->setShowFPS(showFPS);
+    viewer->addPointCloud<pcl::PointXYZ>(mCloud, rgb, "sample cloud");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
+
+    f2g::saveHelper save(mCloud, false, false, grab);
+
+    viewer->registerKeyboardCallback(f2g::eventlistener::pclSaveEvent, (void*) &save);
+    viewer->registerKeyboardCallback(f2g::eventlistener::pclMiscEvent, (void*) &viewer);
+
+    while(!viewer->wasStopped()){
+        viewer->spinOnce();
+
+        std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now();
+        grab.getDepthAligned(depth_, mCloud);
+
+        /*opencv window block start*/
+        //cv::imshow("color", color_);
+        //char cv_event =(char) cv::waitKey(10);     //react after 10 msec and cast to char
+        //f2g::eventlistener::KeyboardInputEvent(cv_event);
+        /*opencv window block end*/
+
+        std::chrono::high_resolution_clock::time_point timePost = std::chrono::high_resolution_clock::now();
+        std::cout << "delta " << std::chrono::duration_cast<std::chrono::duration<double>>(timePost-timeNow).count() * 1000 << std::endl;
+        pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZ> rgb(mCloud);
+
+        viewer->updatePointCloud<pcl::PointXYZ> (mCloud, rgb, "sample cloud");
+    }
+
+    grab.shutdown();
+
+    return(errNo);
 }
 
 

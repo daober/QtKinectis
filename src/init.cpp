@@ -21,6 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "grabber_impl.hpp"
 #include "logger.hpp"
 
+
+
 int main(int argc, char** argv){
     int isErr = 0;
 
@@ -58,7 +60,7 @@ int main(int argc, char** argv){
         break;
             case 1:
             //uncolorized depth images
-            uncolorized = false;
+            uncolorized = true;
             break;
         default:
             colorized = true;
@@ -81,9 +83,8 @@ int main(int argc, char** argv){
     }
 
     if(uncolorized){
-        //not implemented
         grabimpl->processUncolorizedPointCloud(pipeline);
     }
 
-    return (isErr);
+return (isErr);
 }

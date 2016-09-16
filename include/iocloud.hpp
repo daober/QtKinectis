@@ -35,8 +35,11 @@ namespace f2g {
 
     public:
         saveHelper(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> cloud, bool binformat, bool useCam, f2g::grabber &grab);
+        saveHelper(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> cloud, bool binformat, bool useCam, f2g::grabber &grab);
 
         boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> cloud_;
+        boost::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> cloudXYZ_;
+
         bool binformat_;
         bool useCam_;
         f2g::grabber &grabber_;
