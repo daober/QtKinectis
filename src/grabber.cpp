@@ -466,19 +466,3 @@ void f2g::grabber::setMirror(const bool mirror){
 bool f2g::grabber::getMirror(){
     return mirror_;
 }
-
-void f2g::grabber::setRGBViewer(const bool rgbwin){
-    createRGBWindow_ = rgbwin;
-}
-
-bool f2g::grabber::getRGBViewer(){
-    return createRGBWindow_;
-}
-
-void f2g::grabber::setPCLViewer(const bool pclwin){
-    createPCLWindow_ = pclwin;
-}
-
-bool f2g::grabber::getPCLViewer(){
-    return createPCLWindow_;
-}

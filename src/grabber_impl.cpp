@@ -47,9 +47,6 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
     mCloud->sensor_orientation_.y() = 0.0f;
     mCloud->sensor_orientation_.z() = 0.0f;
 
-    grab.setRGBViewer(colorVwr);
-    grab.setPCLViewer(pclVwr);
-
     boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinectv2 3D Viewer"));
 
     viewer->setBackgroundColor(0.0f, 0.0f, 0.0f);
@@ -89,11 +86,12 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
             grab.getColorDepthAligned(color_, depth_, mCloud);
         }
 
-        if(grab.getRGBViewer()){
-            cv::imshow("color", color_);
-            char cv_event =(char) cv::waitKey(10);     //react after 10 msec and cast to char
-            f2g::eventlistener::KeyboardInputEvent(cv_event);
-        }
+
+        /*opencv window block start*/
+        //cv::imshow("color", color_);
+        //char cv_event =(char) cv::waitKey(10);     //react after 10 msec and cast to char
+        //f2g::eventlistener::KeyboardInputEvent(cv_event);
+        /*opencv window block end*/
 
         std::chrono::high_resolution_clock::time_point timePost = std::chrono::high_resolution_clock::now();
         std::cout << "delta " << std::chrono::duration_cast<std::chrono::duration<double>>(timePost-timeNow).count() * 1000 << std::endl;

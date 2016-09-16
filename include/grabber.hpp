@@ -73,12 +73,6 @@ namespace f2g {
 		 */
 		bool initialize(void);
 
-		void setRGBViewer(const bool rgbwin = true);
-		bool getRGBViewer();
-
-		void setPCLViewer(const bool pclwin = true);
-		bool getPCLViewer();
-
 		void setMirror(const bool mirror = true);
 		bool getMirror();
 
