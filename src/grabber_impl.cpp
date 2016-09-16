@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <Eigen/Core>
 
 
-int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVwr, bool setSize, int xw, int yw){
+int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, int xw, int yw){
 
     int errNo = 0;
 
@@ -34,9 +34,7 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
     std::cout<< "Processing Point Cloud..." <<std::endl;
 
     std::vector<int> iter_ply;
-
     boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> mCloud;
-
 
     f2g::grabber grab(pl, false);       //args:(pipeline, mirror)
 
@@ -86,7 +84,6 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
             grab.getColorDepthAligned(color_, depth_, mCloud);
         }
 
-
         /*opencv window block start*/
         //cv::imshow("color", color_);
         //char cv_event =(char) cv::waitKey(10);     //react after 10 msec and cast to char
@@ -99,12 +96,20 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
         pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(mCloud);
 
         viewer->updatePointCloud<pcl::PointXYZRGB> (mCloud, rgb, "sample cloud");
-
     }
 
     grab.shutdown();
 
     return(errNo);
+}
+
+
+
+int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, int xw, int yw){
+    int errNo;
+
+
+    return (errNo);
 }
 
 

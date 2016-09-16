@@ -44,7 +44,8 @@ namespace f2g {
 
     public:
 
-        int processPointCloud(f2g::proc pl, bool colorVwr = true, bool pclVwr = true, bool setSize = true, int xw = 1280, int yw = 768);
+        int processColorizedPointCloud(f2g::proc pl, bool setSize = true, int xw = 1280, int yw = 768);
+        int processUncolorizedPointCloud(f2g::proc pl, bool setSize = true, int xw = 1280, int yw = 768);
 
         void showUsage();
 

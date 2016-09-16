@@ -22,11 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 int main(int argc, char** argv){
-
     int isErr = 0;
 
-    bool showPointCloud = true;
-    bool showRGBCameraOutput = false;
+    bool colorized = false;
+    bool uncolorized = false;
 
     const char* logfile = "$HOME/src/logs/grabberlog/f2glog.txt";
 
@@ -50,7 +49,23 @@ int main(int argc, char** argv){
             break;
     }
 
-    if(argc < 2){
+
+    switch((*argv)[2]){
+        case 0:
+            //depth image with rgb colors aligned
+            colorized = true;
+        break;
+            case 1:
+            //uncolorized depth images
+            uncolorized = false;
+            break;
+        default:
+            colorized = true;
+            break;
+    }
+
+
+    if(argc < 3){
         std::cout<<"wrong usage, please read: "<<std::endl;
         grabimpl->showUsage();
         isErr= -2;
@@ -58,8 +73,13 @@ int main(int argc, char** argv){
 
         exit (-2);
     }
-    else{
-        grabimpl->processPointCloud(pipeline, showRGBCameraOutput, showPointCloud);
+
+    if(colorized){
+        grabimpl->processColorizedPointCloud(pipeline);
+    }
+
+    if(uncolorized){
+        grabimpl->processUncolorizedPointCloud(pipeline);
     }
 
     return (isErr);

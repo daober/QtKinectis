@@ -110,7 +110,7 @@ std::string f2g::grabber::getProcessingPipeline(void){
 
 
 
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateColorizedCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
 
     multilistener_.waitForNewFrame(frameMap_);
     libfreenect2::Frame *rgb = frameMap_[libfreenect2::Frame::Color];
@@ -189,7 +189,7 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateCloud(pcl::PointCloud
 }
 
 
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateCloud(const libfreenect2::Frame * rgb, const libfreenect2::Frame * depth, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateColorizedCloud(const libfreenect2::Frame * rgb, const libfreenect2::Frame * depth, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
 
 		registration_->apply(rgb, depth, &undistorted_, &registered_, true, &mat_, map_);
 
@@ -248,6 +248,41 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateCloud(const libfreene
 		cloud->is_dense = is_dense;
 
 		return cloud;
+}
+
+
+pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
+
+
+}
+
+
+pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
+
+
+}
+
+pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::getUncolorizedPointCloud(void){
+
+
+}
+
+
+pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::getUncolorizedPointCloud(const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
+
+
+}
+
+
+void f2g::grabber::getDepthAligned(cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, const bool hd, const bool rmpoints){
+
+
+}
+
+
+void f2g::grabber::getDepthAligned(cv::Mat &colormat, cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, const bool hd, const bool rmpoints){
+
+
 }
 
 
@@ -407,7 +442,7 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::getColorizedPointCloud(void
 
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>(width, height) );
 
-    return updateCloud(cloud);
+    return updateColorizedCloud(cloud);
 }
 
 
@@ -420,7 +455,7 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::getColorizedPointCloud(cons
         cloud->resize(width * height);
     }
 
-return updateCloud(rgb, depth, cloud);
+return updateColorizedCloud(rgb, depth, cloud);
 }
 
 
