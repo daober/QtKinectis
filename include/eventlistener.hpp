@@ -24,8 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <pcl/visualization/mouse_event.h>
 
 
-
-
 namespace f2g {
 
     class eventlistener {

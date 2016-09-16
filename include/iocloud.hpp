@@ -70,6 +70,7 @@ namespace f2g {
         template <typename Tcloud>
         void savePLYCloud(bool safe, const std::string &filename, const Tcloud &cloud, bool binaryformat);
 
+
     private:
 
         int errNo_;

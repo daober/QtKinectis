@@ -11,7 +11,7 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
+You should have received a copy of these GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 @Author Daniel Obermaier
@@ -532,7 +532,7 @@ void f2g::grabber::storeDeviceParams(){
     fs.release();
 }
 
-void f2g::grabber::setMirror(bool mirror){
+void f2g::grabber::setMirror(const bool mirror){
     mirror_ = mirror;
 }
 
@@ -540,7 +540,7 @@ bool f2g::grabber::getMirror(){
     return mirror_;
 }
 
-void f2g::grabber::setRGBViewer(bool rgbwin){
+void f2g::grabber::setRGBViewer(const bool rgbwin){
     createRGBWindow_ = rgbwin;
 }
 
@@ -548,7 +548,7 @@ bool f2g::grabber::getRGBViewer(){
     return createRGBWindow_;
 }
 
-void f2g::grabber::setPCLViewer(bool pclwin){
+void f2g::grabber::setPCLViewer(const bool pclwin){
     createPCLWindow_ = pclwin;
 }
 

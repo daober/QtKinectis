@@ -30,6 +30,7 @@ f2g::saveHelper::saveHelper(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>>
 }
 
 
+
 template <typename Tcloud>
 int f2g::iocloud::savePLYCloud(const std::string &filename, const Tcloud &cloud, bool binaryformat, bool useCam){
     std::cout<<"saving cloud as *.ply file"<<std::endl;

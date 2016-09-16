@@ -79,13 +79,13 @@ namespace f2g {
 		void getDepth(cv::Mat depthmat);
 		void getIr(cv::Mat irmat);
 
-		void setRGBViewer(bool rgbwin = true);
+		void setRGBViewer(const bool rgbwin = true);
 		bool getRGBViewer();
 
-		void setPCLViewer(bool pclwin = true);
+		void setPCLViewer(const bool pclwin = true);
 		bool getPCLViewer();
 
-		void setMirror(bool mirror = true);
+		void setMirror(const bool mirror = true);
 		bool getMirror();
 
 		void setProcessingPipeline(proc pl);

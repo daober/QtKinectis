@@ -30,11 +30,13 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
     bool setDepthOnly = false;
     bool setIrOnly = false;
 
+
     std::cout<< "Processing Point Cloud..." <<std::endl;
 
     std::vector<int> iter_ply;
 
     boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> mCloud;
+
 
     f2g::grabber grab(pl, false);       //args:(pipeline, mirror)
 
@@ -117,12 +119,25 @@ int f2g::grabber_impl::processPointCloud(f2g::proc pl, bool colorVwr, bool pclVw
 }
 
 
-void f2g::grabber_impl::showUsage(){
 
-        std::cout << "Syntax is: progname [0|1|2] correspond to CPU, OPENCL, OPENGL" << std::endl;
-        std::cout << "Press 'ESC' or ctrl+c to close OpenCV window" << std::endl;
-        std::cout << "Press 'ctrl+y' to store a cloud" << std::endl;
-//    std::cout << "Press \'x\' to store the calibrations." << std::endl;
+void f2g::grabber_impl::getColorizedPointCloud(const f2g::grabber &grab, const pcl::PointCloud<pcl::PointXYZRGB> &cloud, const pcl::visualization::PCLVisualizer &viewer, const pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> &rgb){
+
+
+}
+
+
+
+void f2g::grabber_impl::getGreyPointCloud(const f2g::grabber &grab, const pcl::PointCloud<pcl::PointXYZRGB> &cloud, const pcl::visualization::PCLVisualizer &viewer){
+
+
+}
+
+
+
+void f2g::grabber_impl::showUsage(){
+        std::cout << "Syntax is: progname [ 0 | 1 | 2 ] correspond to CPU, OPENCL, OPENGL" << std::endl;
+        std::cout << "Press 'ESC' or ctrl + c to close program" << std::endl;
+        std::cout << "Press 'ctrl + y' to store a cloud" << std::endl;
 }
 
 
