@@ -51,8 +51,8 @@ namespace f2g {
         cv::Mat getColorMat();
         cv::Mat getDepthMat();
 
-        void getColorizedPointCloud(const f2g::grabber &grab, const pcl::PointCloud<pcl::PointXYZRGB> &cloud, pcl::visualization::PCLVisualizer *viewer, const pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> &rgb);
-        void getGreyPointCloud(const f2g::grabber &grab, const pcl::PointCloud<pcl::PointXYZRGB> &cloud, pcl::visualization::PCLVisualizer *viewer);
+        void getColorizedPointCloud(f2g::grabber &grab, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::visualization::PCLVisualizer *viewer, pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb);
+        void getGreyPointCloud(f2g::grabber &grab, pcl::PointCloud<pcl::PointXYZRGB> &cloud, pcl::visualization::PCLVisualizer *viewer);
 
 
     private:
