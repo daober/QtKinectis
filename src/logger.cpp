@@ -39,6 +39,15 @@ void f2g::grablog::log(Level level, const std::string &message){
      logfile_ << "[" << libfreenect2::Logger::level2str(level) << "] " << message << std::endl;
 }
 
+
+void f2g::grablog::showUsage(){
+    std::cout << "Syntax is: progname [ 0 | 1 | 2 ] [ 0 | 1 ] correspond to [CPU | OPENCL | OPENGL] and [ COLORIZED | UNCOLORIZED ] " << std::endl;
+    std::cout << "example usage: sudo ./freenect2 1 0 for OPENCL pipeline and colorized point cloud" << std::endl;
+    std::cout << "Press 'ESC' or ctrl + c to close program" << std::endl;
+    std::cout << "Press 'ctrl + y' to store a cloud" << std::endl;
+}
+
+
 f2g::proc_err::proc_err(int argc, char **argv){
     std::cout<< "object of class proc_err (error processor) started..." << std::endl;
 
@@ -62,9 +71,11 @@ int f2g::proc_err::pclArgError(int args){
     return (0);
 }
 
+
 void f2g::grablog::enableErrorlog(void){
     std::cout<<"not yet implemented" << std::endl;
 }
+
 
 void f2g::grablog::disableErrorlog(void){
     std::cout<<"not yet implemented" << std::endl;

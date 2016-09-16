@@ -47,8 +47,6 @@ namespace f2g {
         int processColorizedPointCloud(f2g::proc pl, bool setSize = true, int xw = 1280, int yw = 768);
         int processUncolorizedPointCloud(f2g::proc pl, bool setSize = true, int xw = 1280, int yw = 768);
 
-        void showUsage();
-
         cv::Mat getColorMat();
         cv::Mat getDepthMat();
 

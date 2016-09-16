@@ -30,6 +30,7 @@ namespace f2g{
 	public:
 
 		grablog(const char *filename);
+		void showUsage();
 
 	private:
 

@@ -22,13 +22,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <Eigen/Core>
 
 
+
 int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, int xw, int yw){
 
     int errNo = 0;
 
-    bool setColorDepth = true;
-    bool setDepthOnly = false;
-    bool setIrOnly = false;
     bool showFPS = true;
 
     std::cout<< "Processing Point Cloud..." <<std::endl;
@@ -66,7 +64,6 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
     }
 
     viewer->setShowFPS(showFPS);
-
     viewer->addPointCloud<pcl::PointXYZRGB>(mCloud, rgb, "sample cloud");
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
 
@@ -79,10 +76,7 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
         viewer->spinOnce();
 
         std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now();
-
-        if(setColorDepth){
-            grab.getColorDepthAligned(color_, depth_, mCloud);
-        }
+        grab.getColorDepthAligned(color_, depth_, mCloud);
 
         /*opencv window block start*/
         //cv::imshow("color", color_);
@@ -92,9 +86,7 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
 
         std::chrono::high_resolution_clock::time_point timePost = std::chrono::high_resolution_clock::now();
         std::cout << "delta " << std::chrono::duration_cast<std::chrono::duration<double>>(timePost-timeNow).count() * 1000 << std::endl;
-
         pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(mCloud);
-
         viewer->updatePointCloud<pcl::PointXYZRGB> (mCloud, rgb, "sample cloud");
     }
 
@@ -110,15 +102,6 @@ int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, 
 
 
     return (errNo);
-}
-
-
-
-void f2g::grabber_impl::showUsage(){
-        std::cout << "Syntax is: progname [ 0 | 1 | 2 ] [ 0 | 1 ] correspond to [CPU | OPENCL | OPENGL] and [ COLORIZED | UNCOLORIZED ] " << std::endl;
-        std::cout << "example usage: sudo ./freenect2 1 0 for OPENCL pipeline and colorized point cloud" << std::endl;
-        std::cout << "Press 'ESC' or ctrl + c to close program" << std::endl;
-        std::cout << "Press 'ctrl + y' to store a cloud" << std::endl;
 }
 
 

@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /*include own headers first*/
 #include "grabber_impl.hpp"
-
+#include "logger.hpp"
 
 int main(int argc, char** argv){
     int isErr = 0;
@@ -30,7 +30,9 @@ int main(int argc, char** argv){
     const char* logfile = "$HOME/src/logs/grabberlog/f2glog.txt";
 
     boost::shared_ptr<f2g::grabber_impl> grabimpl(new f2g::grabber_impl());
-    grabimpl->showUsage();
+    boost::shared_ptr<f2g::grablog> log(new f2g::grablog(logfile));
+
+    log->showUsage();
 
     f2g::proc pipeline;
 
@@ -49,7 +51,6 @@ int main(int argc, char** argv){
             break;
     }
 
-
     switch((*argv)[2]){
         case 0:
             //depth image with rgb colors aligned
@@ -67,7 +68,8 @@ int main(int argc, char** argv){
 
     if(argc < 3){
         std::cout<<"wrong usage, please read: "<<std::endl;
-        grabimpl->showUsage();
+        log->showUsage();
+
         isErr= -2;
         std::cout<<"exiting program -> Error number: " <<isErr <<std::endl;
 
@@ -79,6 +81,7 @@ int main(int argc, char** argv){
     }
 
     if(uncolorized){
+        //not implemented
         grabimpl->processUncolorizedPointCloud(pipeline);
     }
 
