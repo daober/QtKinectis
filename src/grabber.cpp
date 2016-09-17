@@ -318,10 +318,10 @@ return cloud;
 }
 
 
-pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
+pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(const libfreenect2::Frame *rgb, const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
     std::cout<<"uncolorized cloud updated(depth, cloud)"<<std::endl;
 
-    //registration_->apply(rgb, depth, &undistorted_, &registered_, true, &mat_, map_);
+    registration_->apply(rgb, depth, &undistorted_, &registered_, true, &mat_, map_);
 
     const std::size_t w = undistorted_.width;
     const std::size_t h = undistorted_.height;
@@ -348,7 +348,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(const l
         const char *itRGB = itcolor + offset * 4;
         const float dy = rows(y);
 
-        for(std::size_t x = 0; x < w; ++x, ++itP, ++itD, itRGB += 4){
+        for(std::size_t x = 0; x < w; ++x, ++itP, ++itD , itRGB += 4){
             const float depth_value = *itD / 1000.0f;
 
             if(!std::isnan(depth_value) && !(std::abs(depth_value) < 0.0001)){
@@ -426,8 +426,6 @@ void f2g::grabber::getDepthAligned(cv::Mat &depthmat, pcl::PointCloud<pcl::Point
     libfreenect2::Frame *rgb = frameMap_[libfreenect2::Frame::Color];
     libfreenect2::Frame *depth = frameMap_[libfreenect2::Frame::Depth];
 
-    //registration_->apply(rgb, depth, &undistorted_, &registered_, rmpoints, &mat_, map_);
-
     cv::Mat tmpDepth(undistorted_.height, undistorted_.width, CV_32FC1, undistorted_.data);
     cv::Mat tmpColor;
 
@@ -439,9 +437,8 @@ void f2g::grabber::getDepthAligned(cv::Mat &depthmat, pcl::PointCloud<pcl::Point
     }
 
     depthmat = tmpDepth.clone();
-    //colormat = tmpColor.clone();
 
-    cloud = getUncolorizedPointCloud(depth, cloud);
+    cloud = getUncolorizedPointCloud(rgb, depth, cloud);
 
     multilistener_.release(frameMap_);
 }
@@ -557,7 +554,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::createUncolorizedPointCloud(vo
 }
 
 
-pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::getUncolorizedPointCloud(const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
+pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::getUncolorizedPointCloud(const libfreenect2::Frame *rgb, const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
     std::cout<<"uncolorized Pointcloud(depth, cloud) aquired"<<std::endl;
 
     const short width = undistorted_.width;
@@ -566,12 +563,11 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::getUncolorizedPointCloud(const
     if(cloud->size() != width * height){
         cloud->resize(width * height);
     }
-return updateUncolorizedCloud(depth, cloud);
+return updateUncolorizedCloud(rgb, depth, cloud);
 }
 
 
 void f2g::grabber::printDeviceParams(){
-
     libfreenect2::Freenect2Device::ColorCameraParams colorparams = getRgbParameters();
     std::cout << "rgb fx=" << colorparams.fx << ",fy=" << colorparams.fy <<
         ",cx=" << colorparams.cx << ",cy=" << colorparams.cy << std::endl;
