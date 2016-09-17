@@ -41,10 +41,14 @@ void f2g::grablog::log(Level level, const std::string &message){
 
 
 void f2g::grablog::showUsage(){
-    std::cout << "Syntax is: progname [ 0 | 1 | 2 ] [ 0 | 1 ] correspond to [CPU | OPENCL | OPENGL] and [ COLORIZED | UNCOLORIZED ] " << std::endl;
-    std::cout << "example usage: sudo ./freenect2 1 0 for OPENCL pipeline and colorized point cloud" << std::endl;
-    std::cout << "Press 'ESC' or ctrl + c to close program" << std::endl;
-    std::cout << "Press 'ctrl + y' to store a cloud" << std::endl;
+    std::cerr << "Usage: progrname <option(s)> PIPELINE"
+          << "Options:\n"
+          << "\t-C, -O, -P \t\t (CPU, OPENCL, OPENGL) specify packet pipeline\n"
+          << "\t-Z,-U \t (COLORIZE, UNCOLORIZE) specify depth data"
+          << std::endl;
+
+    std::cerr << "Press 'ESC' or 'ctrl' '+' 'c' to close program" << std::endl;
+    std::cerr << "Press 'ctrl' '+' 'y' to store a cloud" << std::endl;
 }
 
 

@@ -21,9 +21,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "grabber_impl.hpp"
 #include "logger.hpp"
 
+/*convenient class for advanced command line options*/
+#include <boost/program_options.hpp>
 
 
 int main(int argc, char** argv){
+
     int isErr = 0;
 
     bool colorized = false;
