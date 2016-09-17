@@ -15,6 +15,8 @@ SET(CMAKE_BUILD_TYPE Debug)
 
 find_package(PCL 1.7.1	REQUIRED)
 find_package(Boost      REQUIRED)
+find_package(Boost COMPONENTS program_options REQUIRED)
+
 find_package(freenect2  REQUIRED)
 find_package(OpenCV     REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -65,13 +67,14 @@ include_directories(${PCL_INCLUDE_DIRS})
 include_directories(${freenect2_INCLUDE_DIRS})
 include_directories(${Eigen_INCLUDE_DIRS})
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIRS})
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
 
-set(SOURCES src/init.cpp src/iocloud.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp )
+set(SOURCES src/init.cpp src/iocloud.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp src/argparser.cpp)
 
-add_executable(freenector2 ${SOURCES} include/iocloud.hpp include/grabber.hpp include/grabber_impl.hpp include/logger.hpp include/eventlistener.hpp)
+add_executable(freenector2 ${SOURCES} include/iocloud.hpp include/grabber.hpp include/grabber_impl.hpp include/logger.hpp include/eventlistener.hpp include/argparser.hpp)
 
-target_link_libraries(freenector2 ${OpenCV_LIBS} ${freenect2_LIBRARIES} ${PCL_LIBRARIES} ${OPENGL_LIBRARIES} ${VTK_LIBRARIES})
+target_link_libraries(freenector2 ${OpenCV_LIBS} ${freenect2_LIBRARIES} ${PCL_LIBRARIES} ${OPENGL_LIBRARIES} ${VTK_LIBRARIES} ${Boost_LIBRARIES})
 

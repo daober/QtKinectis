@@ -20,12 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*include own headers first*/
 #include "grabber_impl.hpp"
 #include "logger.hpp"
-
-/*convenient class for advanced command line options*/
-#include <boost/program_options.hpp>
+#include "argparser.hpp"
 
 
 int main(int argc, char** argv){
+
+    f2g::proc pipeline;
 
     int isErr = 0;
 
@@ -37,9 +37,7 @@ int main(int argc, char** argv){
     boost::shared_ptr<f2g::grabber_impl> grabimpl(new f2g::grabber_impl());
     boost::shared_ptr<f2g::grablog> log(new f2g::grablog(logfile));
 
-    log->showUsage();
-
-    f2g::proc pipeline;
+    /*log->showUsage();
 
     switch((*argv)[1]){
         case 0:
@@ -84,7 +82,7 @@ int main(int argc, char** argv){
         isErr= -2;
         std::cout<<"exiting program -> Error number: " <<isErr <<std::endl;
         exit (-2);
-    }
+    }*/
 
     /*just a test!!!!!*/
     colorized = false;
