@@ -18,34 +18,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 @Author Daniel Obermaier
 */
 
+// include own header first
 #include "argparser.hpp"
+
 #include <iostream>
+#include <iterator>
 
 
 const size_t ERROR_IN_COMMAND_LINE = 1;
 const size_t SUCCESS = 0;
 const size_t ERROR_UNHANDLED_EXCEPTION = 2;
 
+namespace po = boost::program_options;
+
 
 int f2g::argparser::init(int argc, char **argv){
 
-    /*namespace po = boost::program_options;
-
+    // declare the supported options
     po::options_description desc("Options");
 
     desc.add_options()
         ("help, h", "print help message")
         ("pipeline, p", po::value<int>(), "specify pipeline options")
-        ("depth, d", po::value<int>(), "specify colorization options");
+        ("depth, d", po::value<int>(), "specify colorization options")
+        ("save, s", po::value<int>(), "specify save options");
 
-    po::variables_map varMap;*/
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm); 
+    po::notify(vm);
 
-    /*try{
-        po::store(po::parse_command_line(argc, argv, desc), varMap); *///throws on error
+    try{
 
         /** -help option
         */
-        /*if(varMap.count("help")){
+        if(vm.count("help")){
+            std::cout << desc << std::endl;
             std::cout << "This is just a template app that should be modified"
                       << " and added to in order to create a useful help output/command"
                       << " line application" << std::endl << std::endl;
@@ -53,7 +60,7 @@ int f2g::argparser::init(int argc, char **argv){
         return SUCCESS;
         }
 
-        po::notify(varMap); // throws on error and
+        po::notify(vm); // throws on error and
                             // after help in case there are any problems
     }
 
@@ -72,5 +79,5 @@ int f2g::argparser::init(int argc, char **argv){
         return ERROR_UNHANDLED_EXCEPTION;
     }
 
-return SUCCESS;*/
+return SUCCESS;
 }
