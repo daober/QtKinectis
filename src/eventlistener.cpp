@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <opencv2/highgui/highgui.hpp>
 
 #include <chrono>
-
 #include <iostream>
 #include <string.h>
 

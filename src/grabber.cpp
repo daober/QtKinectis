@@ -17,9 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 @Author Daniel Obermaier
 */
 
-//include own header first
+/*include own header first*/
 #include "grabber.hpp"
-//#include "io_cloud.hpp"
 #include "eventlistener.hpp"
 
 
@@ -45,7 +44,6 @@ f2g::grabber::grabber(proc pl, bool mirror, std::string serial) :    mirror_(mir
         registration_ = new libfreenect2::Registration(dev_->getIrCameraParams(), dev_->getColorCameraParams());
 
         //now create a 3D cloud map
-        std::cout<< "creating 3D cloud" << std::endl;
         create3Dcloud(dev_->getIrCameraParams());
     }
 }
@@ -90,7 +88,7 @@ bool f2g::grabber::shutdown(void){
 
 
 
-bool f2g::grabber::initialize(void){
+bool f2g::grabber::initializeCam(void){
     bool err = false;
 
     dev_ = freenect2_.openDevice(serial_, pipeline_);
@@ -113,6 +111,7 @@ std::string f2g::grabber::getProcessingPipeline(void){
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateColorizedCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
 
     multilistener_.waitForNewFrame(frameMap_);
+
     libfreenect2::Frame *rgb = frameMap_[libfreenect2::Frame::Color];
     libfreenect2::Frame *depth = frameMap_[libfreenect2::Frame::Depth];
 
@@ -135,7 +134,6 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateColorizedCloud(pcl::P
 
     if (mirror_ == true){
         //cv::flip(inputArray src, outputArray dst, int flipcode (1 = flip around y-axis))
-        //TODO: check here later on...
         cv::flip(tempDepthMat, tempDepthMat, 1);
         cv::flip(tempRGBMat, tempRGBMat, 1);
     }
@@ -188,7 +186,7 @@ return cloud;
 }
 
 
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateColorizedCloud(const libfreenect2::Frame * rgb, const libfreenect2::Frame * depth, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateColorizedCloud(const libfreenect2::Frame *rgb, const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
 
 		registration_->apply(rgb, depth, &undistorted_, &registered_, true, &mat_, map_);
 
@@ -250,14 +248,14 @@ return cloud;
 
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
+    std::cout<<"update uncolorized cloud called"<<std::endl;
 
     multilistener_.waitForNewFrame(frameMap_);
 
+    libfreenect2::Frame *rgb = frameMap_[libfreenect2::Frame::Color];
     libfreenect2::Frame *depth = frameMap_[libfreenect2::Frame::Depth];
 
-    //apply is not needed for depth only
-    //apply: map color images onto depth images
-    //registration_->apply(rgb, depth, &undistorted_, &registered_, true, &mat_, map_);
+    registration_->apply(rgb, depth, &undistorted_, &registered_, true, &mat_, map_);
 
     float divider = 1000.0f;
     float minBound = 0.0001f;
@@ -267,14 +265,17 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(pcl::Po
 
     /*Hint: CV_8UC4 = 4 Channel, 8 bit unsigned char per channel*/
     cv::Mat tempDepthMat(undistorted_.height, undistorted_.width, CV_8UC4, undistorted_.data);
+    cv::Mat tempRGBMat(registered_.height, registered_.width, CV_8UC4, registered_.data);
 
     const float *iterDepth = (float *) tempDepthMat.ptr();
+    const char *iterRGB = (char *) tempRGBMat.ptr();
 
     pcl::PointXYZ *iterPoint = &cloud->points[0];
 
     if (mirror_ == true){
         //cv::flip(inputArray src, outputArray dst, int flipcode (1 = flip around y-axis))
         cv::flip(tempDepthMat, tempDepthMat, 1);
+        cv::flip(tempRGBMat, tempRGBMat, 1);
     }
 
     bool isDense = true;
@@ -283,10 +284,11 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(pcl::Po
 
         const unsigned int offset = y * sWidth;
         const float *itDepth = iterDepth + offset;
+        const char *itRGB = iterRGB + offset * 4;
 
         const float dy = rows(y);
 
-        for(std::size_t x = 0; x < sWidth; ++x, ++iterPoint, ++itDepth += 4){
+        for(std::size_t x = 0; x < sWidth; ++x, ++iterPoint, ++itDepth, itRGB += 4){
 
             const float depthVal = *itDepth / divider;
 
@@ -317,6 +319,7 @@ return cloud;
 
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
+    std::cout<<"uncolorized cloud updated(depth, cloud)"<<std::endl;
 
     //registration_->apply(rgb, depth, &undistorted_, &registered_, true, &mat_, map_);
 
@@ -324,11 +327,14 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(const l
     const std::size_t h = undistorted_.height;
 
     cv::Mat tmpdepth_iter(undistorted_.height, undistorted_.width, CV_8UC4, undistorted_.data);
+    cv::Mat tmpcolor_iter(registered_.height, registered_.width, CV_8UC4, registered_.data);
 
     const float * itdepth = (float *) tmpdepth_iter.ptr();
+    const char * itcolor = (char *) tmpcolor_iter.ptr();
 
     if (mirror_){
         cv::flip(tmpdepth_iter, tmpdepth_iter, 1);
+        cv::flip(tmpcolor_iter, tmpcolor_iter, 1);
     }
 
     pcl::PointXYZ *itP = &cloud->points[0];
@@ -338,10 +344,11 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(const l
     for(std::size_t y = 0; y < h; ++y){
 
         const unsigned int offset = y * w;
-        const float * itD = itdepth + offset;
+        const float *itD = itdepth + offset;
+        const char *itRGB = itcolor + offset * 4;
         const float dy = rows(y);
 
-        for(std::size_t x = 0; x < w; ++x, ++itP, ++itD += 4){
+        for(std::size_t x = 0; x < w; ++x, ++itP, ++itD, itRGB += 4){
             const float depth_value = *itD / 1000.0f;
 
             if(!std::isnan(depth_value) && !(std::abs(depth_value) < 0.0001)){
@@ -361,10 +368,9 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::updateUncolorizedCloud(const l
             }
         }
     }
+cloud->is_dense = is_dense;
 
-    cloud->is_dense = is_dense;
-
-    return cloud;
+return cloud;
 }
 
 
@@ -382,7 +388,6 @@ void f2g::grabber::create3Dcloud(const libfreenect2::Freenect2Device::IrCameraPa
         *pRowMap++ = (e - depthPoints.cy + 0.5) / depthPoints.fy;
     }
 }
-
 
 
 void f2g::grabber::getColorDepthAligned(cv::Mat &colormat, cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, const bool hd, const bool rmpoints){
@@ -414,12 +419,27 @@ void f2g::grabber::getColorDepthAligned(cv::Mat &colormat, cv::Mat &depthmat, pc
 
 
 void f2g::grabber::getDepthAligned(cv::Mat &depthmat, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, const bool hd, const bool rmpoints){
+    std::cout<<"aligned Depth image aquired"<<std::endl;
 
     multilistener_.waitForNewFrame(frameMap_);
+
+    libfreenect2::Frame *rgb = frameMap_[libfreenect2::Frame::Color];
     libfreenect2::Frame *depth = frameMap_[libfreenect2::Frame::Depth];
+
+    //registration_->apply(rgb, depth, &undistorted_, &registered_, rmpoints, &mat_, map_);
+
     cv::Mat tmpDepth(undistorted_.height, undistorted_.width, CV_32FC1, undistorted_.data);
+    cv::Mat tmpColor;
+
+    if(hd){
+        tmpColor = cv::Mat(rgb->height, rgb->width, CV_8UC4, rgb->data);
+    }
+    else{
+        tmpColor = cv::Mat(registered_.height, registered_.width, CV_8UC4, registered_.data);
+    }
 
     depthmat = tmpDepth.clone();
+    //colormat = tmpColor.clone();
 
     cloud = getUncolorizedPointCloud(depth, cloud);
 
@@ -526,17 +546,19 @@ return updateColorizedCloud(rgb, depth, cloud);
 
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::createUncolorizedPointCloud(void){
+    std::cout<<"uncolorized PointCloud() created"<<std::endl;
 
     const short width = undistorted_.width;
     const short height = undistorted_.height;
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>(width, height) );
 
-return updateUncolorizedCloud(cloud);
+    return updateUncolorizedCloud(cloud);
 }
 
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::getUncolorizedPointCloud(const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
+    std::cout<<"uncolorized Pointcloud(depth, cloud) aquired"<<std::endl;
 
     const short width = undistorted_.width;
     const short height = undistorted_.height;
@@ -544,7 +566,6 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr f2g::grabber::getUncolorizedPointCloud(const
     if(cloud->size() != width * height){
         cloud->resize(width * height);
     }
-
 return updateUncolorizedCloud(depth, cloud);
 }
 
@@ -560,7 +581,6 @@ void f2g::grabber::printDeviceParams(){
         ",cx=" << irparams.cx << ",cy=" << irparams.cy <<
         ",k1=" << irparams.k1 << ",k2=" << irparams.k2 << ",k3=" << irparams.k3 <<
         ",p1=" << irparams.p1 << ",p2=" << irparams.p2 << std::endl;
-
 }
 
 
@@ -584,9 +604,11 @@ void f2g::grabber::storeDeviceParams(){
     fs.release();
 }
 
+
 void f2g::grabber::setMirror(const bool mirror){
     mirror_ = mirror;
 }
+
 
 bool f2g::grabber::getMirror(){
     return mirror_;

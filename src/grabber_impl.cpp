@@ -86,7 +86,7 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
 
         std::chrono::high_resolution_clock::time_point timePost = std::chrono::high_resolution_clock::now();
         std::cout << "delta " << std::chrono::duration_cast<std::chrono::duration<double>>(timePost-timeNow).count() * 1000 << std::endl;
-        pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(mCloud);
+
         viewer->updatePointCloud<pcl::PointXYZRGB> (mCloud, rgb, "sample cloud");
     }
 
@@ -103,7 +103,7 @@ int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, 
 
     bool showFPS = true;
 
-    std::cout<< "Processing uncolorized Point Cloud..." <<std::endl;
+    std::cout<< "Processing Point Cloud..." <<std::endl;
 
     std::vector<int> iter_ply;
     boost::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> mCloud;
@@ -121,7 +121,7 @@ int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, 
 
     viewer->setBackgroundColor(0.0f, 0.0f, 0.0f);
 
-    pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZ> rgb(mCloud);
+    //pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZ> rgb(mCloud);
 
     if(setSize){
         double posx = 0.0;
@@ -138,7 +138,7 @@ int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, 
     }
 
     viewer->setShowFPS(showFPS);
-    viewer->addPointCloud<pcl::PointXYZ>(mCloud, rgb, "sample cloud");
+    viewer->addPointCloud<pcl::PointXYZ>(mCloud, "sample cloud");
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
 
     f2g::saveHelper save(mCloud, false, false, grab);
@@ -160,9 +160,8 @@ int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, 
 
         std::chrono::high_resolution_clock::time_point timePost = std::chrono::high_resolution_clock::now();
         std::cout << "delta " << std::chrono::duration_cast<std::chrono::duration<double>>(timePost-timeNow).count() * 1000 << std::endl;
-        pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZ> rgb(mCloud);
 
-        viewer->updatePointCloud<pcl::PointXYZ> (mCloud, rgb, "sample cloud");
+        viewer->updatePointCloud<pcl::PointXYZ> (mCloud, "sample cloud");
     }
 
     grab.shutdown();

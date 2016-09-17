@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <chrono>
 
 
-
 namespace f2g {
 
     class grabber_impl{
@@ -60,5 +59,5 @@ namespace f2g {
         cv::Mat depth_;
         cv::Mat ir_;
     };
-
+    
 }

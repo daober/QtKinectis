@@ -84,8 +84,8 @@ int main(int argc, char** argv){
     }
 
     /*just a test!!!!!*/
-    /*colorized = false;
-    uncolorized = true;*/
+    colorized = false;
+    uncolorized = true;
 
     if(colorized){
         grabimpl->processColorizedPointCloud(pipeline);

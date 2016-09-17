@@ -79,7 +79,7 @@ namespace f2g {
 		 * @brief initializes kinectv2 device
 		 * @return true if ok
 		 */
-		bool initialize(void);
+		bool initializeCam(void);
 
 		void setMirror(const bool mirror = true);
 		bool getMirror();
