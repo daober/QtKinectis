@@ -22,29 +22,55 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 
 
-int f2g::argparser::initparser(int argc, char **argv){
+const size_t ERROR_IN_COMMAND_LINE = 1;
+const size_t SUCCESS = 0;
+const size_t ERROR_UNHANDLED_EXCEPTION = 2;
 
-    boost::program_options::options_description desc("Allowed options");
+
+int f2g::argparser::init(int argc, char **argv){
+
+    /*namespace po = boost::program_options;
+
+    po::options_description desc("Options");
 
     desc.add_options()
-        ("help", "produce help message")
-        ("pipeline", boost::program_options::value<int>(), "specify pipeline options")
-        ("depth", boost::program_options::value<int>(), "specify colorization options");
+        ("help, h", "print help message")
+        ("pipeline, p", po::value<int>(), "specify pipeline options")
+        ("depth, d", po::value<int>(), "specify colorization options");
 
-    boost::program_options::variables_map vm;
-    boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
-    boost::program_options::notify(vm);
+    po::variables_map varMap;*/
 
-    if(vm.count("help")){
-        std::cout << desc << "\n";
-        return 1;
+    /*try{
+        po::store(po::parse_command_line(argc, argv, desc), varMap); *///throws on error
+
+        /** -help option
+        */
+        /*if(varMap.count("help")){
+            std::cout << "This is just a template app that should be modified"
+                      << " and added to in order to create a useful help output/command"
+                      << " line application" << std::endl << std::endl;
+
+        return SUCCESS;
+        }
+
+        po::notify(varMap); // throws on error and
+                            // after help in case there are any problems
     }
 
-    if(vm.count("pipeline")){
-        std::cout << "packet pipeline is set to: "
-             << vm["compression"].as<int>() << ".\n";
-    } else {
-        std::cout << "packet pipeline is not set. \n";
+    catch(po::error& e){
+        std::cerr << "ERROR: " <<e.what() << std::endl << std::endl;
+        std::cerr << desc << std::endl;
+
+        return ERROR_IN_COMMAND_LINE;
     }
 
+    catch(std::exception& e){
+        std::cerr << "Unhandled Exception reached the top of main: "
+                  <<e.what() << ", application will no exit"<< std::endl;
+
+
+        return ERROR_UNHANDLED_EXCEPTION;
+    }
+
+return SUCCESS;*/
 }

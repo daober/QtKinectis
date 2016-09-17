@@ -15,7 +15,9 @@ SET(CMAKE_BUILD_TYPE Debug)
 
 find_package(PCL 1.7.1	REQUIRED)
 find_package(Boost      REQUIRED)
+
 find_package(Boost COMPONENTS program_options REQUIRED)
+find_package(Boost COMPONENTS filesystem REQUIRED)
 
 find_package(freenect2  REQUIRED)
 find_package(OpenCV     REQUIRED)

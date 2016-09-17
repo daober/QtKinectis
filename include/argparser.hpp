@@ -27,7 +27,7 @@ namespace f2g{
     class argparser{
 
     public:
-        int initparser(int argc, char **argv);
+    int init(int argc, char **argv);
 
     private:
 
