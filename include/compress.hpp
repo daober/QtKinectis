@@ -1,9 +1,10 @@
 #pragma once
 
-#include <pcl/point_cloud.h>
+#include <pcl/compression/octree_pointcloud_compression.h>
+
+#include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
 
-#include <pcl/compression/octree_pointcloud_compression.h>
 
 namespace processing{
 
@@ -12,13 +13,16 @@ namespace processing{
         public:
         compress();
 
-        int compressData(pcl::PointCloud<pcl::PointXYZ>::Ptr inCloud, pcl::PointCloud<pcl::PointXYZ>::Ptr outCloud);
+        int compressData(pcl::PointCloud<pcl::PointXYZRGB>::Ptr inCloud);
 
         private:
 
-        pcl::PointCloud<pcl::PointXYZ>::Ptr inputCloud_;
-        pcl::PointCloud<pcl::PointXYZ>::Ptr outputCloud_;  
-    };
+        pcl::PointCloud<pcl::PointXYZRGB>::Ptr inputCloud_;
 
+        boost::shared_ptr<pcl::io::OctreePointCloudCompression<pcl::PointXYZRGB>> PointCloudEncoder;
+        boost::shared_ptr<pcl::io::OctreePointCloudCompression<pcl::PointXYZRGB>> PointCloudDecoder;
+
+        std::stringstream compressedData;
+    };
 
 }
