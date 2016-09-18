@@ -85,26 +85,21 @@ int f2g::argparser::init(int argc, char **argv){
 
     if(vm.count("help")){
         std::cout << desc << std::endl;
-        
-        return SUCCESS;
     }
 
     if(vm.count("pipeline")){
         std::cout << "packet pipeline specified" <<std::endl; 
         pipeline_ = vm["pipeline"].as<int>();
-        return SUCCESS;
     }
 
     if(vm.count("depth")){
         std::cout << "depth specified" <<std::endl;
         depth_ = vm["depth"].as<int>(); 
-        return SUCCESS;
     }
 
     if(vm.count("save")){
         std::cout<< "save specified" <<std::endl;
         save_ = vm["save"].as<int>();
-        return SUCCESS;
     }
 
 return SUCCESS;
