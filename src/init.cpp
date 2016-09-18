@@ -29,20 +29,17 @@ int main(int argc, char** argv){
 
     int isErr = 0;
 
-    bool colorized = false;
-    bool uncolorized = false;
-
     const char* logfile = "$HOME/src/logs/grabberlog/f2glog.txt";
 
     boost::shared_ptr<f2g::grabber_impl> grabimpl(new f2g::grabber_impl());
     boost::shared_ptr<f2g::grablog> log(new f2g::grablog(logfile));
 
     boost::shared_ptr<f2g::argparser> parse(new f2g::argparser());
+
     parse->init(argc, argv);
 
-    /*log->showUsage();
-
-    switch((*argv)[1]){
+   
+    switch(parse->getPipeline()){
         case 0:
             std::cout<<"packet pipeline CPU selected" <<std::endl;
             pipeline = f2g::proc::CPU;
@@ -61,41 +58,12 @@ int main(int argc, char** argv){
             break;
     }
 
-    switch((*argv)[2]){
-        case 0:
-            //depth image with rgb colors aligned
-            std::cout<<"uncolorized chosen" <<std::endl;
-            colorized = true;
-            break;
-        case 1:
-            //uncolorized depth images
-            std::cout<<"uncolorized chosen" <<std::endl;
-            uncolorized = true;
-            break;
-        default:
-            std::cout<<"default (= uncolorized) chosen" <<std::endl;
-            colorized = true;
-            break;
-    }
-
-    if(argc < 3){
-        std::cout<<"wrong usage, please read: "<<std::endl;
-        log->showUsage();
-
-        isErr= -2;
-        std::cout<<"exiting program -> Error number: " <<isErr <<std::endl;
-        exit (-2);
-    }*/
-
-    /*just a test!!!!!*/
-    colorized = false;
-    uncolorized = true;
-
-    if(colorized){
+    
+    if(parse->getDepth() == 0){
         grabimpl->processColorizedPointCloud(pipeline);
     }
 
-    if(uncolorized){
+    if(parse->getDepth() == 1){
         grabimpl->processUncolorizedPointCloud(pipeline);
     }
 

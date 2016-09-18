@@ -30,11 +30,28 @@ const size_t ERROR_IN_COMMAND_LINE = 1;
 const size_t SUCCESS = 0;
 const size_t ERROR_UNHANDLED_EXCEPTION = 2;
 
+
 namespace po = boost::program_options;
+
+
+int f2g::argparser::getPipeline(void){
+    return pipeline_;
+}
+
+
+int f2g::argparser::getDepth(void){
+    return depth_;
+}
+
+
+int f2g::argparser::getSave(void){
+    return save_;
+}
 
 
 int f2g::argparser::init(int argc, char **argv){
 
+    depth_ = 2;
     // declare the supported options
     po::options_description desc("Allowed options");
 
@@ -74,18 +91,19 @@ int f2g::argparser::init(int argc, char **argv){
 
     if(vm.count("pipeline")){
         std::cout << "packet pipeline specified" <<std::endl; 
-        pipeline_ = 0;
+        pipeline_ = vm["pipeline"].as<int>();
         return SUCCESS;
     }
 
     if(vm.count("depth")){
         std::cout << "depth specified" <<std::endl;
-        depth_ = 0;
+        depth_ = vm["depth"].as<int>(); 
         return SUCCESS;
     }
 
     if(vm.count("save")){
-        save_ = 0;   
+        std::cout<< "save specified" <<std::endl;
+        save_ = vm["save"].as<int>();
         return SUCCESS;
     }
 

@@ -29,6 +29,10 @@ namespace f2g{
     public:
         int init(int argc, char **argv);
 
+        int getPipeline(void);
+        int getDepth(void);
+        int getSave(void);
+
     private:
         int pipeline_;
         int depth_;

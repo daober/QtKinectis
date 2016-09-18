@@ -11,11 +11,13 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 
 SET(CMAKE_VERBOSE_MAKEFILE OFF)
 SET(CMAKE_BUILD_TYPE Debug)
-
+SET(Boost_USE_MULTITHREAD ON)
 
 find_package(PCL 1.7.1	REQUIRED)
 find_package(Boost      REQUIRED)
-find_package(Boost REQUIRED COMPONENTS program_options)
+
+# needed for boost asio (networking)
+find_package(Boost REQUIRED COMPONENTS system thread regex program_options)
 
 find_package(freenect2  REQUIRED)
 find_package(OpenCV     REQUIRED)
@@ -73,9 +75,9 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
 
-set(SOURCES src/init.cpp src/iocloud.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp src/argparser.cpp)
+set(SOURCES src/init.cpp src/iocloud.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp src/argparser.cpp src/resampling.cpp src/outlierremoval.cpp src/compress.cpp src/network.cpp src/registration.cpp)
 
-add_executable(freenector2 ${SOURCES} include/iocloud.hpp include/grabber.hpp include/grabber_impl.hpp include/logger.hpp include/eventlistener.hpp include/argparser.hpp)
+add_executable(freenector2 ${SOURCES} include/iocloud.hpp include/grabber.hpp include/grabber_impl.hpp include/logger.hpp include/eventlistener.hpp include/argparser.hpp include/resampling.hpp include/outlierremoval.hpp include/compress.hpp include/network.hpp include/registration.hpp)
 
 target_link_libraries(freenector2 ${OpenCV_LIBS} ${freenect2_LIBRARIES} ${PCL_LIBRARIES} ${OPENGL_LIBRARIES} ${VTK_LIBRARIES} ${Boost_LIBRARIES} )
 
