@@ -30,7 +30,9 @@ namespace f2g{
         int init(int argc, char **argv);
 
     private:
-
+        int pipeline_;
+        int depth_;
+        int save_;
     };
 
 }

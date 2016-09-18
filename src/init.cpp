@@ -37,9 +37,8 @@ int main(int argc, char** argv){
     boost::shared_ptr<f2g::grabber_impl> grabimpl(new f2g::grabber_impl());
     boost::shared_ptr<f2g::grablog> log(new f2g::grablog(logfile));
 
-    //boost::shared_ptr<f2g::argparser> parse(new f2g::argparser());
-
-    //parse->init(argc, argv);
+    boost::shared_ptr<f2g::argparser> parse(new f2g::argparser());
+    parse->init(argc, argv);
 
     /*log->showUsage();
 

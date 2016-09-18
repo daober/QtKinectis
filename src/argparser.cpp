@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
 #include <iterator>
+#include <string>
 
 
 const size_t ERROR_IN_COMMAND_LINE = 1;
@@ -35,33 +36,19 @@ namespace po = boost::program_options;
 int f2g::argparser::init(int argc, char **argv){
 
     // declare the supported options
-    po::options_description desc("Options");
+    po::options_description desc("Allowed options");
 
     desc.add_options()
-        ("help, h", "print help message")
-        ("pipeline, p", po::value<int>(), "specify pipeline options")
-        ("depth, d", po::value<int>(), "specify colorization options")
-        ("save, s", po::value<int>(), "specify save options");
+        ("help,h",                             " displays help message")
+        ("pipeline,p",     po::value<int>(),   " specify pipeline options [ 0 | 1 | 2 ]")
+        ("depth,d",        po::value<int>(),   " specify colorization options [ 0 | 1 ]")
+        ("save,s",         po::value<int>(),   " specify save options [ 0 | 1 ]");
 
     po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm); 
-    po::notify(vm);
 
     try{
-
-        /** -help option
-        */
-        if(vm.count("help")){
-            std::cout << desc << std::endl;
-            std::cout << "This is just a template app that should be modified"
-                      << " and added to in order to create a useful help output/command"
-                      << " line application" << std::endl << std::endl;
-
-        return SUCCESS;
-        }
-
-        po::notify(vm); // throws on error and
-                            // after help in case there are any problems
+        po::store(po::parse_command_line(argc, argv, desc), vm); 
+        po::notify(vm);
     }
 
     catch(po::error& e){
@@ -73,10 +60,33 @@ int f2g::argparser::init(int argc, char **argv){
 
     catch(std::exception& e){
         std::cerr << "Unhandled Exception reached the top of main: "
-                  <<e.what() << ", application will no exit"<< std::endl;
+                  <<e.what() << ", application will now exit"<< std::endl;
 
 
         return ERROR_UNHANDLED_EXCEPTION;
+    }
+
+    if(vm.count("help")){
+        std::cout << desc << std::endl;
+        
+        return SUCCESS;
+    }
+
+    if(vm.count("pipeline")){
+        std::cout << "packet pipeline specified" <<std::endl; 
+        pipeline_ = 0;
+        return SUCCESS;
+    }
+
+    if(vm.count("depth")){
+        std::cout << "depth specified" <<std::endl;
+        depth_ = 0;
+        return SUCCESS;
+    }
+
+    if(vm.count("save")){
+        save_ = 0;   
+        return SUCCESS;
     }
 
 return SUCCESS;
