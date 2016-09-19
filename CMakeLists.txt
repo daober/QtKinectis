@@ -75,9 +75,9 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
 
-set(SOURCES src/init.cpp src/iocloud.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp src/argparser.cpp src/resampling.cpp src/outlierremoval.cpp src/compress.cpp src/network.cpp src/registration.cpp)
+set(SOURCES src/init.cpp src/iocloud.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp src/argparser.cpp src/resampling.cpp src/outlierremoval.cpp src/compress.cpp src/network.cpp src/registration.cpp src/convertcloud.cpp)
 
-add_executable(freenector2 ${SOURCES} include/iocloud.hpp include/grabber.hpp include/grabber_impl.hpp include/logger.hpp include/eventlistener.hpp include/argparser.hpp include/resampling.hpp include/outlierremoval.hpp include/compress.hpp include/network.hpp include/registration.hpp)
+add_executable(freenector2 ${SOURCES} include/iocloud.hpp include/grabber.hpp include/grabber_impl.hpp include/logger.hpp include/eventlistener.hpp include/argparser.hpp include/resampling.hpp include/outlierremoval.hpp include/compress.hpp include/network.hpp include/registration.hpp include/convertcloud.hpp)
 
 target_link_libraries(freenector2 ${OpenCV_LIBS} ${freenect2_LIBRARIES} ${PCL_LIBRARIES} ${OPENGL_LIBRARIES} ${VTK_LIBRARIES} ${Boost_LIBRARIES} )
 
