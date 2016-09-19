@@ -2,7 +2,7 @@
 #include "ui_qtvisualizer.h"
 
 qtvisualizer::qtvisualizer(QWidget *parent) :
-    QWidget(parent),
+    QMainWindow(parent),
     ui(new Ui::qtvisualizer)
 {
     ui->setupUi(this);

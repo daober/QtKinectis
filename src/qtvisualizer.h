@@ -1,13 +1,13 @@
 #ifndef QTVISUALIZER_H
 #define QTVISUALIZER_H
 
-#include <QWidget>
+#include <QMainWindow>
 
 namespace Ui {
 class qtvisualizer;
 }
 
-class qtvisualizer : public QWidget
+class qtvisualizer : public QMainWindow
 {
     Q_OBJECT
 

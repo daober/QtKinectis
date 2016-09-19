@@ -24,6 +24,8 @@ find_package(Boost REQUIRED COMPONENTS system thread regex program_options)
 
 find_package(freenect2  REQUIRED)
 find_package(OpenCV     REQUIRED)
+find_package(Qt5Core	REQUIRED)
+find_package(Qt5Gui	REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(VTK        REQUIRED)
 
