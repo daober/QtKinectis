@@ -1,6 +1,6 @@
 <ui version="4.0">
  <class>qtvisualizer</class>
- <widget class="QMainWindow" name="qtvisualizer" >
+ <widget class="QWidget" name="qtvisualizer" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -12,10 +12,6 @@
   <property name="windowTitle" >
    <string>qtvisualizer</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
  </widget>
  <layoutDefault spacing="6" margin="11" />
  <pixmapfunction></pixmapfunction>

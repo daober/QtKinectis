@@ -24,15 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "argparser.hpp"
 
 
-#include <QApplication>
-
-
-
-int main(int argc, char** argv){
-
-    //QApplication a(argc, argv);
-    //qtvisualizer w;
-    //w.show();
+int init(int argc, char** argv){
 
     f2g::proc pipeline;
 
@@ -76,5 +68,4 @@ int main(int argc, char** argv){
         grabimpl->processUncolorizedPointCloud(pipeline);
     }
 
-//return a.exec();
 }
