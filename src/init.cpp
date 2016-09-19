@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /*include own headers first*/
-#include "qtvisualizer.h"
+//#include "qtvisualizer.h"
 #include "grabber_impl.hpp"
 #include "logger.hpp"
 #include "argparser.hpp"

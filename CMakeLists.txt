@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
 project(freenector2 CXX)
 
@@ -12,6 +12,9 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 SET(CMAKE_VERBOSE_MAKEFILE OFF)
 SET(CMAKE_BUILD_TYPE Debug)
 SET(Boost_USE_MULTITHREAD ON)
+
+SET(CMAKE_AUTOMOC ON)
+SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(PCL 1.7.1	REQUIRED)
 find_package(Boost      REQUIRED)
@@ -97,7 +100,7 @@ add_library(freenector2Lib SHARED
 
 target_link_libraries(freenector2Lib Qt5::Widgets)
 
-set(SOURCES src/init.cpp src/iocloud.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp src/argparser.cpp src/resampling.cpp src/outlierremoval.cpp src/compress.cpp src/network.cpp src/registration.cpp src/convertcloud.cpp )
+set(SOURCES src/init.cpp src/iocloud.cpp src/grabber.cpp src/grabber_impl.cpp src/logger.cpp src/eventlistener.cpp src/argparser.cpp src/resampling.cpp src/outlierremoval.cpp src/compress.cpp src/network.cpp src/registration.cpp src/convertcloud.cpp src/qtinit.cpp)
 
 add_executable(freenector2 ${SOURCES} include/iocloud.hpp include/grabber.hpp include/grabber_impl.hpp include/logger.hpp include/eventlistener.hpp include/argparser.hpp include/resampling.hpp include/outlierremoval.hpp include/compress.hpp include/network.hpp include/registration.hpp include/convertcloud.hpp ${freenector2Bin_src})
 
