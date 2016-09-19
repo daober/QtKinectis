@@ -18,12 +18,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /*include own headers first*/
+#include "qtvisualizer.h"
 #include "grabber_impl.hpp"
 #include "logger.hpp"
 #include "argparser.hpp"
 
 
+#include <QApplication>
+
+
+
 int main(int argc, char** argv){
+
+    //QApplication a(argc, argv);
+    //qtvisualizer w;
+    //w.show();
 
     f2g::proc pipeline;
 
@@ -38,7 +47,7 @@ int main(int argc, char** argv){
 
     parse->init(argc, argv);
 
-   
+
     switch(parse->getPipeline()){
         case 0:
             std::cout<<"packet pipeline CPU selected" <<std::endl;
@@ -58,7 +67,7 @@ int main(int argc, char** argv){
             break;
     }
 
-    
+
     if(parse->getDepth() == 0){
         grabimpl->processColorizedPointCloud(pipeline);
     }
@@ -67,5 +76,5 @@ int main(int argc, char** argv){
         grabimpl->processUncolorizedPointCloud(pipeline);
     }
 
-return (isErr);
+//return a.exec();
 }
