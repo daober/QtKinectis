@@ -29,8 +29,6 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
 
     bool showFPS = true;
 
-    std::cout<< "Processing Point Cloud..." <<std::endl;
-
     std::vector<int> iter_ply;
     boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> mCloud;
 
@@ -96,13 +94,10 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
 
 
 int f2g::grabber_impl::processQtColorizedCloud(f2g::proc pl, boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer){
-    std::cout<<"process qt colorized updated"<<std::endl;
 
     int errNo = 0;
 
     bool showFPS = true;
-
-    std::cout<< "Processing Point Cloud..." <<std::endl;
 
     std::vector<int> iter_ply;
     boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> mCloud;
@@ -130,6 +125,7 @@ int f2g::grabber_impl::processQtColorizedCloud(f2g::proc pl, boost::shared_ptr<p
     viewer->registerKeyboardCallback(f2g::eventlistener::pclMiscEvent, (void*) &viewer);
 
     while(!viewer->wasStopped()){
+        std::cout<<"viewer loop called"<<std::endl;
         viewer->spinOnce();
 
         std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now();
@@ -141,6 +137,7 @@ int f2g::grabber_impl::processQtColorizedCloud(f2g::proc pl, boost::shared_ptr<p
         viewer->updatePointCloud<pcl::PointXYZRGB> (mCloud, rgb, "sample cloud");
     }
 
+    std::cout<<"processQtColorizedCloud ended"<<std::endl;
     grab.shutdown();
 
     return(errNo);

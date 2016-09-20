@@ -1,6 +1,7 @@
 #include "qtvisualizer.h"
 #include "ui_qtvisualizer.h"
 
+#include <boost/make_shared.hpp>
 
 qtvisualizer::qtvisualizer(QWidget *parent) :
     QMainWindow(parent),
@@ -8,6 +9,7 @@ qtvisualizer::qtvisualizer(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("Kinect Point Cloud Viewer");
 
+    pipeline = f2g::proc::CPU;
     //setup the cloud pointer
     cloud_.reset(new PointCloudT);
     cloud_->points.resize(2000);
@@ -19,6 +21,10 @@ qtvisualizer::qtvisualizer(QWidget *parent) :
     viewer_->setupInteractor(ui->qvtkWidget->GetInteractor(), ui->qvtkWidget->GetRenderWindow());
     ui->qvtkWidget->update();
 
+    grabimpl = boost::make_shared<f2g::grabber_impl>();
+
+    grabimpl->processQtColorizedCloud(pipeline, viewer_);
+    
     //connect callback function for ui (save and load buttons)
     connect(ui->pushButton_save, SIGNAL(clicked()), this, SLOT(loadFileButtonPressed()));
     connect(ui->pushButton_load, SIGNAL(clicked()), this, SLOT(saveFileButtonPressed()));
@@ -114,9 +120,9 @@ void qtvisualizer::pipelineSelected(){
 }
 
 void qtvisualizer::startButtonPressed(){
-
+    std::cout<<"start button pressed"<<std::endl;
 }
 
 void qtvisualizer::stopButtonPressed(){
-
+    std::cout<<"stop button pressed"<<std::endl;
 }
