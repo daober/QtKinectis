@@ -43,8 +43,8 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
     mCloud->sensor_orientation_.y() = 0.0f;
     mCloud->sensor_orientation_.z() = 0.0f;
 
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinectv2 3D Viewer"));
-
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinect Point Cloud Viewer"));
+    //viewer->reset(new pcl::visualization::PCLVisualizer("Kinect Point Cloud Viewer", false));
     viewer->setBackgroundColor(0.0f, 0.0f, 0.0f);
 
     pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(mCloud);
@@ -97,6 +97,8 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
 
 
 
+
+
 int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, int xw, int yw){
 
     int errNo = 0;
@@ -117,7 +119,7 @@ int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, 
     mCloud->sensor_orientation_.y() = 0.0f;
     mCloud->sensor_orientation_.z() = 0.0f;
 
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinectv2 3D Viewer"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinect Point Cloud Viewer"));
 
     viewer->setBackgroundColor(0.0f, 0.0f, 0.0f);
 
