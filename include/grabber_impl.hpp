@@ -46,6 +46,9 @@ namespace f2g {
         int processColorizedPointCloud(f2g::proc pl, bool setSize = true, int xw = 1280, int yw = 768);
         int processUncolorizedPointCloud(f2g::proc pl, bool setSize = true, int xw = 1280, int yw = 768);
 
+        int processQtColorizedCloud(f2g::proc pl, boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer);
+        int processQtUncolorizedCloud(f2g::proc pl, boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer);
+
         cv::Mat getColorMat();
         cv::Mat getDepthMat();
 
@@ -59,5 +62,5 @@ namespace f2g {
         cv::Mat depth_;
         cv::Mat ir_;
     };
-    
+
 }

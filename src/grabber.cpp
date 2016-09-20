@@ -109,6 +109,7 @@ std::string f2g::grabber::getProcessingPipeline(void){
 
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateColorizedCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+    std::cout<<"colorized cloud updated"<<std::endl;
 
     multilistener_.waitForNewFrame(frameMap_);
 
@@ -187,6 +188,7 @@ return cloud;
 
 
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr f2g::grabber::updateColorizedCloud(const libfreenect2::Frame *rgb, const libfreenect2::Frame *depth, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+    std::cout<<"colorized cloud updated"<<std::endl;
 
 		registration_->apply(rgb, depth, &undistorted_, &registered_, true, &mat_, map_);
 

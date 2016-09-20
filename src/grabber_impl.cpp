@@ -43,8 +43,7 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
     mCloud->sensor_orientation_.y() = 0.0f;
     mCloud->sensor_orientation_.z() = 0.0f;
 
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinect Point Cloud Viewer"));
-    //viewer->reset(new pcl::visualization::PCLVisualizer("Kinect Point Cloud Viewer", false));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("viewer"));
     viewer->setBackgroundColor(0.0f, 0.0f, 0.0f);
 
     pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(mCloud);
@@ -96,6 +95,109 @@ int f2g::grabber_impl::processColorizedPointCloud(f2g::proc pl, bool setSize, in
 }
 
 
+int f2g::grabber_impl::processQtColorizedCloud(f2g::proc pl, boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer){
+    std::cout<<"process qt colorized updated"<<std::endl;
+
+    int errNo = 0;
+
+    bool showFPS = true;
+
+    std::cout<< "Processing Point Cloud..." <<std::endl;
+
+    std::vector<int> iter_ply;
+    boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> mCloud;
+
+    f2g::grabber grab(pl, false);       //args:(pipeline, mirror)
+
+    mCloud = grab.createColorizedPointCloud();
+
+    mCloud->sensor_orientation_.w() = 0.0f;
+    mCloud->sensor_orientation_.x() = 1.0f;
+    mCloud->sensor_orientation_.y() = 0.0f;
+    mCloud->sensor_orientation_.z() = 0.0f;
+
+    viewer->setBackgroundColor(0.0f, 0.0f, 0.0f);
+
+    pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(mCloud);
+
+    viewer->setShowFPS(showFPS);
+    viewer->addPointCloud<pcl::PointXYZRGB>(mCloud, rgb, "sample cloud");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
+
+    f2g::saveHelper save(mCloud, false, false, grab);
+
+    viewer->registerKeyboardCallback(f2g::eventlistener::pclSaveEvent, (void*) &save);
+    viewer->registerKeyboardCallback(f2g::eventlistener::pclMiscEvent, (void*) &viewer);
+
+    while(!viewer->wasStopped()){
+        viewer->spinOnce();
+
+        std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now();
+        grab.getColorDepthAligned(color_, depth_, mCloud);
+
+        std::chrono::high_resolution_clock::time_point timePost = std::chrono::high_resolution_clock::now();
+        std::cout << "delta " << std::chrono::duration_cast<std::chrono::duration<double>>(timePost-timeNow).count() * 1000 << std::endl;
+
+        viewer->updatePointCloud<pcl::PointXYZRGB> (mCloud, rgb, "sample cloud");
+    }
+
+    grab.shutdown();
+
+    return(errNo);
+}
+
+
+
+
+int f2g::grabber_impl::processQtUncolorizedCloud(f2g::proc pl, boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer){
+    std::cout<<"process qt uncolorized updated"<<std::endl;
+
+    int errNo = 0;
+
+    bool showFPS = true;
+
+    std::cout<< "Processing Point Cloud..." <<std::endl;
+
+    std::vector<int> iter_ply;
+    boost::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> mCloud;
+
+    f2g::grabber grab(pl, false);       //args:(pipeline, mirror)
+
+    mCloud = grab.createUncolorizedPointCloud();
+
+    mCloud->sensor_orientation_.w() = 0.0f;
+    mCloud->sensor_orientation_.x() = 1.0f;
+    mCloud->sensor_orientation_.y() = 0.0f;
+    mCloud->sensor_orientation_.z() = 0.0f;
+
+    viewer->setBackgroundColor(0.0f, 0.0f, 0.0f);
+
+    viewer->setShowFPS(showFPS);
+    viewer->addPointCloud<pcl::PointXYZ>(mCloud, "sample cloud");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
+
+    f2g::saveHelper save(mCloud, false, false, grab);
+
+    viewer->registerKeyboardCallback(f2g::eventlistener::pclSaveEvent, (void*) &save);
+    viewer->registerKeyboardCallback(f2g::eventlistener::pclMiscEvent, (void*) &viewer);
+
+    while(!viewer->wasStopped()){
+        viewer->spinOnce();
+
+        std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now();
+        grab.getDepthAligned(depth_, mCloud);
+
+        std::chrono::high_resolution_clock::time_point timePost = std::chrono::high_resolution_clock::now();
+        std::cout << "delta " << std::chrono::duration_cast<std::chrono::duration<double>>(timePost-timeNow).count() * 1000 << std::endl;
+
+        viewer->updatePointCloud<pcl::PointXYZ> (mCloud, "sample cloud");
+    }
+
+    grab.shutdown();
+
+    return(errNo);
+}
+
 
 
 
@@ -119,7 +221,7 @@ int f2g::grabber_impl::processUncolorizedPointCloud(f2g::proc pl, bool setSize, 
     mCloud->sensor_orientation_.y() = 0.0f;
     mCloud->sensor_orientation_.z() = 0.0f;
 
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("Kinect Point Cloud Viewer"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("viewer"));
 
     viewer->setBackgroundColor(0.0f, 0.0f, 0.0f);
 

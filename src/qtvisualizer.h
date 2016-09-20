@@ -1,6 +1,9 @@
 #ifndef QTVISUALIZER_H
 #define QTVISUALIZER_H
 
+#include "grabber_impl.hpp"
+#include "logger.hpp"
+
 #include <QMainWindow>
 #include <QFileDialog>
 
@@ -18,6 +21,7 @@
 #include <vtkRenderWindow.h>
 
 #include <iostream>
+
 
 typedef pcl::PointXYZRGBA PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
@@ -39,8 +43,11 @@ public slots:
     void saveFileButtonPressed();
     void loadFileButtonPressed();
 
-    void depthButtonPressed();
-    void pipelineButtonPressed();
+    void startButtonPressed();
+    void stopButtonPressed();
+    
+    void depthSelected();
+    void pipelineSelected();
 
 
 protected:
@@ -49,6 +56,14 @@ protected:
 
 private:
     Ui::qtvisualizer *ui;
+
+    //set up the qvtk window using object of grabber_impl
+    f2g::proc pipeline;
+    const char* logfile;
+
+    boost::shared_ptr<f2g::grabber_impl> grabimpl;
+    boost::shared_ptr<f2g::grablog> log;
+
 };
 
 #endif // QTVISUALIZER_H
