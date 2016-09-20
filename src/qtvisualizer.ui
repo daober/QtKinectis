@@ -67,23 +67,6 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="QRadioButton" name="uncolorizedcheck">
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-             <weight>50</weight>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>depth only</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QRadioButton" name="colorizedcheck">
            <property name="font">
             <font>
@@ -97,6 +80,23 @@
            </property>
            <property name="checked">
             <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="uncolorizedcheck">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>depth only</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -353,7 +353,7 @@
            </size>
           </property>
           <property name="text">
-           <string>load file</string>
+           <string>load file...</string>
           </property>
          </widget>
         </item>
@@ -366,7 +366,7 @@
            </size>
           </property>
           <property name="text">
-           <string>save file</string>
+           <string>save file...</string>
           </property>
          </widget>
         </item>
