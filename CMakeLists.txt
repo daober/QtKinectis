@@ -32,8 +32,7 @@ find_package(VTK        REQUIRED)
 add_library(qtvisualizer src/qtvisualizer.cpp)
 target_link_libraries(qtvisualizer Qt5::Widgets)
 # run silent
-#find_package(Eigen3 	QUIET)
-find_package(Eigen3 REQUIRED)
+find_package(Eigen3 	QUIET)
 # lines underneath needed for OSX + brew package manager installation formulae for opencv3 and eigen3
 if(NOT EIGEN_FOUND)
     # Fallback to cmake_modules
